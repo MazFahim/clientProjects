@@ -5,3 +5,7 @@ from django.template import loader
 def movies(request):
     template = loader.get_template('first.html')
     return HttpResponse(template.render())
+
+def home(request):
+    template = loader.get_template('home.html')
+    return HttpResponse(template.render())
