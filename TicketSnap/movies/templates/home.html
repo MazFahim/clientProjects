@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <style>
+        .slideshow-container{
+            max-width: 600px;
+            position: relative;
+        }
+    </style>
 </head>
 <body>
     {% include 'headerNavbar.html' %}
-    <h1>Palestine will be Free</h1>
+    <div class="slideshow-container">
+        <div class="mySlides">Palestine</div>
+        <div class="mySlides">Will Be</div>
+        <div class="mySlides">Independent</div>
+    </div>
 </body>
 </html>

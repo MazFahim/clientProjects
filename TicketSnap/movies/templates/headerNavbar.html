@@ -2,6 +2,36 @@
 <html lang="en">
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        li{
+            float: left;
+            width: 16%;
+        }
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 0;
+            text-decoration: dashed;
+        }
+        li a:hover {
+            background-color: mediumaquamarine;
+            color: chartreuse;
+        }
+    </style>
 </head>
 <body>
 
