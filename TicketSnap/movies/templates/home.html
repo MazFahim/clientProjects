@@ -27,6 +27,31 @@
             animation-name: fade;
             animation-duration: 1.5s;
         }
+        .card-container{
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .card{
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .card p {
+            font-size: 16px;
+            color: #555;
+        }
         @keyframes fade {
             from {opacity: .4} 
             to {opacity: 1}
@@ -56,6 +81,43 @@
             <span class="dot"></span>
         </div>
     </div>
+
+    <p>Runnig Movies</p>
+
+    <div class="card-container">
+        <div class="card">
+            <h3>Card 1</h3>
+            <p>Content Of card 1</p>
+        </div>
+        <div class="card">
+            <h3>Card 2</h3>
+            <p>Content Of card 2</p>
+        </div>
+        <div class="card">
+            <h3>Card 3</h3>
+            <p>Content Of card 3</p>
+        </div>
+    </div>
+    
+    <p>Upcomnig Movies</p>
+    
+    <div class="card-container">
+        <div class="card">
+            <h3>Card 1</h3>
+            <p>Content Of card 1</p>
+        </div>
+        <div class="card">
+            <h3>Card 2</h3>
+            <p>Content Of card 2</p>
+        </div>
+        <div class="card">
+            <h3>Card 3</h3>
+            <p>Content Of card 3</p>
+        </div>
+    </div>
+
+    <p>Book a Slot: </p>
+
     {% include 'footer.html' %}
     <script>
         let slideIndex = 0;

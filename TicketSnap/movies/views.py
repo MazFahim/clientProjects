@@ -10,6 +10,14 @@ def home(request):
     template = loader.get_template('home.html')
     return HttpResponse(template.render())
 
+def showtime(request):
+    template = loader.get_template('showtime.html')
+    return HttpResponse(template.render())
+
+def tickets(request):
+    template = loader.get_template('tickets.html')
+    return HttpResponse(template.render())
+
 def contact(request):
     template = loader.get_template('contact.html')
     return HttpResponse(template.render())
