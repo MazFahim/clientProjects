@@ -1,5 +1,6 @@
 from django.db import models
 
-class Demo(models.Model): 
-    firstname = models.CharField(max_length=255)
-    lastname = models.CharField(max_length=255)
+class CardData(models.Model):
+    movieName = models.CharField(max_length=100)
+    # poster = models.ImageField(upload_to=<>)
+    releaseDate = models.DateField()
