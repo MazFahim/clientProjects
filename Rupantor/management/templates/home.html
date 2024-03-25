@@ -4,9 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    <style>
+        .card-container{
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .card{
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .card p {
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
+    
     {% include 'header.html' %}
-    This is the home page of rupantor
+    
+    <div>
+        <p>Rupantor Best Seller</p> 
+        <div class="card-container">
+            <div class="card">
+                <h3>Card 1</h3>
+                <p>Content Of card 1</p>
+            </div>
+            <div class="card">
+                <h3>Card 2</h3>
+                <p>Content Of card 2</p>
+            </div>
+            <div class="card">
+                <h3>Card 3</h3>
+                <p>Content Of card 3</p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p>Rupantor Offers </p>
+        <div class="card-container">
+            <div class="card">
+                <h3>Card 1</h3>
+                <p>Content Of card 1</p>
+            </div>
+            <div class="card">
+                <h3>Card 2</h3>
+                <p>Content Of card 2</p>
+            </div>
+            <div class="card">
+                <h3>Card 3</h3>
+                <p>Content Of card 3</p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <p>Customer Reviews </p><br>
+        SlideShow 
+    </div>
+    <div>
+        <p>FAQs</p> 
+    </div>
 </body>
 </html>
