@@ -12,3 +12,7 @@ def home(request):
 def summerwear(request):
     template = loader.get_template('summerwear.html')
     return HttpResponse(template.render())
+
+def winterwear(request):
+    template = loader.get_template('winterwear.html')
+    return HttpResponse(template.render())
