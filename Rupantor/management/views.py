@@ -16,3 +16,7 @@ def summerwear(request):
 def winterwear(request):
     template = loader.get_template('winterwear.html')
     return HttpResponse(template.render())
+
+def cart(request):
+    template = loader.get_template('cart.html')
+    return HttpResponse(template.render())
