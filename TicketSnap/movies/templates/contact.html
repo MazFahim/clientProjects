@@ -8,7 +8,9 @@
 <body>
     {% include 'headerNavbar.html' %}
 
-    <form>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
         <label>Name:</label>
         <input type="text" name="name" placeholder="Your Name"><br><br>
         <label>Email:</label>
@@ -17,6 +19,7 @@
         <input type="text" name="subject" placeholder="Your Subject"><br><br>
         <label>Message:</label>
         <input type="text" name="message" placeholder="Your Message"><br><br>
+        <button type="submit">Send Message</button>
     </form>
     {% include 'footer.html' %}
 </body>
