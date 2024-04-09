@@ -19,7 +19,7 @@ class Movie(models.Model):
     trailer_url = models.URLField()
 
     def __str__(self):
-        return f"{self.title} - {self.genre}"
+        return f"{self.title} - {self.genre} - {self.status}"
 
 class Showtime(models.Model):
     Day_Choices = [

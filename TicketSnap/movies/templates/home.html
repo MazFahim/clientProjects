@@ -82,40 +82,34 @@
         </div>
     </div>
 
-    <p>Runnig Movies</p>
-
-    <div class="card-container">
-        <div class="card">
-            <h3>Card 1</h3>
-            <p>Content Of card 1</p>
-        </div>
-        <div class="card">
-            <h3>Card 2</h3>
-            <p>Content Of card 2</p>
-        </div>
-        <div class="card">
-            <h3>Card 3</h3>
-            <p>Content Of card 3</p>
-        </div>
-    </div>
     
-    <p>Upcomnig Movies</p>
+    <p>Running Movies</p>
     
     <div class="card-container">
-        <div class="card">
-            <h3>Card 1</h3>
-            <p>Content Of card 1</p>
-        </div>
-        <div class="card">
-            <h3>Card 2</h3>
-            <p>Content Of card 2</p>
-        </div>
-        <div class="card">
-            <h3>Card 3</h3>
-            <p>Content Of card 3</p>
-        </div>
+        {% for movie in movies %}
+            {% if movie.status == "Now Playing" %}
+                <div class="card">
+                    <h3>{{ movie.title }}</h3>
+                    <p>{{ movie.release_date }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
+    
 
+    <p>Upcoming Movies</p>
+
+    <div class="card-container">
+        {% for movie in movies %}
+            {% if movie.status == "Upcoming" %}
+                <div class="card">
+                    <h3>{{ movie.title }}</h3>
+                    <p>{{ movie.release_date }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
     <p>Book a Slot: </p>
     <!-- <ul>
         {% for x in movies %}
