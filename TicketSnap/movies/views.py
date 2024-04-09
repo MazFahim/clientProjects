@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from .models import *
+from .forms import CustomerMessageForm
 
 def movies(request):
     template = loader.get_template('first.html')
@@ -25,5 +26,9 @@ def tickets(request):
     return HttpResponse(template.render())
 
 def contact(request):
-    template = loader.get_template('contact.html')
-    return HttpResponse(template.render())
+    if request.POST:
+        form = CustomerMessageForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect(home)
+    return render(request, 'contact.html', {'form':CustomerMessageForm})
