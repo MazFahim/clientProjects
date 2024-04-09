@@ -1,9 +1,10 @@
 from django.db import models
 
-class CardData(models.Model):
-    movieName = models.CharField(max_length=100)
-    # poster = models.ImageField(upload_to=<>)
-    releaseDate = models.DateField()
+# class CardData(models.Model):
+#     #instead of this, Movie model will be used
+#     movieName = models.CharField(max_length=100)
+#     # poster = models.ImageField(upload_to=<>)
+#     releaseDate = models.DateField()
 
 class Movie(models.Model):
     movieId = models.AutoField(primary_key=True)
