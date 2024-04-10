@@ -18,8 +18,12 @@ def home(request):
     
 
 def showtime(request):
+    movieSchedules = Showtime.objects.all().values()
     template = loader.get_template('showtime.html')
-    return HttpResponse(template.render())
+    context = {
+        'movieSchedules' : movieSchedules
+    }
+    return HttpResponse(template.render(context, request))
 
 def tickets(request):
     template = loader.get_template('tickets.html')
