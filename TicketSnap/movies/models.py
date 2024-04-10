@@ -1,11 +1,5 @@
 from django.db import models
 
-# class CardData(models.Model):
-#     #instead of this, Movie model will be used
-#     movieName = models.CharField(max_length=100)
-#     # poster = models.ImageField(upload_to=<>)
-#     releaseDate = models.DateField()
-
 class Movie(models.Model):
     movieId = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
@@ -25,7 +19,6 @@ class Showtime(models.Model):
     Day_Choices = [
         ('Monday', 'Monday'),
         ('Tuesday', 'Tuesday'),
-        ('Wednesday', 'Wednesday'),
         ('Thursday', 'Thursday'),
         ('Friday', 'Friday'),
         ('Saturday', 'Saturday'),
@@ -34,12 +27,14 @@ class Showtime(models.Model):
     
     dayofweek = models.CharField(max_length=20, choices=Day_Choices)
     date = models.DateField()
-    slot1 = models.TimeField()
-    slot2 = models.TimeField(null=True, blank=True)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    slot1 = models.ForeignKey(Movie, related_name='slot1', limit_choices_to={'status': 'Now Playing'}, on_delete=models.CASCADE)
+    slot2 = models.ForeignKey(Movie, related_name='slot2', limit_choices_to={'status': 'Now Playing'}, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['dayofweek', 'date']
 
     def __str__(self):
-        return f"{self.movie.title} - {self.day_of_week} {self.date}"
+        return f"{self.dayofweek} {self.date}"
 
 class CustomerMessage(models.Model):
     msgID = models.AutoField(primary_key=True)
