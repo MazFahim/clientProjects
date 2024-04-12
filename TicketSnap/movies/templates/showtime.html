@@ -64,6 +64,27 @@
         </tr>
     </table>
     <p>Book Tickets:</p>
-    {% include 'footer.html' %}
+    {% for schedule in movieSchedules.all %}
+    <li>
+        {{ schedule.dayofweek }}<br>
+        <strong>Date:</strong> {{ schedule.date }}<br>
+        <strong>Slot 1 Movie Title:</strong> 
+        {% for movie in movies %}
+            {% if movie.movieId == schedule.slot1_id %}
+                {{ movie.title }}
+            {% endif %}
+        {% endfor %}
+        <br>
+        <strong>Slot 2 Movie Title:</strong> 
+        {% for movie in movies %}
+            {% if movie.movieId == schedule.slot2_id %}
+                {{ movie.title }}
+            {% endif %}
+        {% endfor %}
+        <br>
+    </li>
+    {% endfor %}
+    <br>
+    {% include 'footer.html' %} 
 </body>
 </html>

@@ -2,7 +2,7 @@ from django.db import models
 
 class Movie(models.Model):
     movieId = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     duration = models.CharField(max_length=50)
     actors = models.CharField(max_length=255)
     director = models.CharField(max_length=50)

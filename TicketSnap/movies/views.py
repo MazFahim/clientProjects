@@ -18,10 +18,13 @@ def home(request):
     
 
 def showtime(request):
-    movieSchedules = Showtime.objects.all().values()
+    movieSchedules = Showtime.objects.order_by('-date')[:6].values()
+    movies = Movie.objects.all().values()
+
     template = loader.get_template('showtime.html')
     context = {
-        'movieSchedules' : movieSchedules
+        'movieSchedules' : movieSchedules,
+        'movies' : movies
     }
     return HttpResponse(template.render(context, request))
 
