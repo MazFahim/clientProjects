@@ -9,6 +9,9 @@ class Wears(models.Model):
     category = models.CharField(max_length=20, choices=categoryChoice)
     productName = models.CharField(max_length=50)
     productColor = models.CharField(max_length=20)
+    productBody = models.CharField(max_length=30)
+    frontLength = models.IntegerField()
+    backLength = models.IntegerField()
     productPrice = models.DecimalField(max_digits=8, decimal_places=2)
     available = models.IntegerField()
     description = models.TextField()
@@ -25,3 +28,9 @@ class CustomerMessage(models.Model):
     email = models.CharField(max_length=50)
     subject = models.CharField(max_length=20)
     msg = models.TextField()
+
+class Featured(models.Model):
+    pass
+
+class Offer(models.Model):
+    pass

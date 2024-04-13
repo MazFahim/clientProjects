@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+admin.site.register(Wears)
+admin.site.register(Cart)
+admin.site.register(CustomerMessage)
+admin.site.register(Featured)
+admin.site.register(Offer)
