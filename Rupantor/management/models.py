@@ -1,10 +1,23 @@
 from django.db import models
 
 class Wears(models.Model):
-    pass
+    categoryChoice = [
+        ('SummerWear', 'Summerwear'),
+        ('WinterWear', 'Winterwear')
+    ]
+    productId = models.AutoField(primary_key=True)
+    category = models.CharField(max_length=20, choices=categoryChoice)
+    productName = models.CharField(max_length=50)
+    productColor = models.CharField(max_length=20)
+    productPrice = models.DecimalField(max_digits=8, decimal_places=2)
+    available = models.IntegerField()
+    description = models.TextField()
 
 class Cart(models.Model):
-    pass
+    productId = models.IntegerField()
+    productName = models.CharField(max_length=50)
+    productAmount = models.IntegerField()
+    productPrice = models.IntegerField()
 
 class CustomerMessage(models.Model):
     msgId = models.AutoField(primary_key=True)
