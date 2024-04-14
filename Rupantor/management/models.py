@@ -8,13 +8,14 @@ class Wears(models.Model):
     productId = models.AutoField(primary_key=True)
     category = models.CharField(max_length=20, choices=categoryChoice)
     productName = models.CharField(max_length=50)
-    productColor = models.CharField(max_length=20)
-    productBody = models.CharField(max_length=30)
-    frontLength = models.IntegerField()
-    backLength = models.IntegerField()
+    productColor = models.CharField(max_length=20, null=True)
+    productBody = models.CharField(max_length=30, null=True)
+    frontLength = models.IntegerField(null=True)
+    backLength = models.IntegerField(null=True)
     productPrice = models.DecimalField(max_digits=8, decimal_places=2)
     available = models.IntegerField()
     description = models.TextField()
+    productImage = models.ImageField(blank=True)
 
 class Cart(models.Model):
     productId = models.IntegerField()
