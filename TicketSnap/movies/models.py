@@ -11,6 +11,7 @@ class Movie(models.Model):
     release_date = models.DateField()
     status = models.CharField(max_length=20)
     trailer_url = models.URLField()
+    poster = models.ImageField(blank=True)
 
     def __str__(self):
         return f"{self.title} - {self.genre} - {self.status}"

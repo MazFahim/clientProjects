@@ -15,21 +15,40 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            display: flex;
+            justify-content: center;    
         }
         li{
-            float: left;
-            width: 25%;
+            /* float: left; */
+            width: auto;
+            margin-right: 30px;
+        }
+        li:last-child {
+            margin-right: 0; 
+        }
+        li:first-child {
+            margin-right: 600px; 
         }
         li a {
             display: block;
             color: white;
             text-align: center;
-            padding: 14px 0;
+            padding: 14px 20px;
             text-decoration: dashed;
         }
         li a:hover {
             background-color: mediumaquamarine;
             color: chartreuse;
+        }
+        .home-link{
+            font-weight: bold;
+            font-size: 30px;
+            color: white;
+            background-color: #333;
+            padding: 10px;
+        }
+        .home-link:hover {
+            background-color: #444;
         }
     </style>
 </head>
@@ -37,7 +56,7 @@
 
     <nav>
         <ul>
-            <li><a href="/">Home</a></li>
+            <li><a href="/" class="home-link">TicketSnap</a></li>
             <li><a href="/showtime/">Showtime</a></li>
             <li><a href="/tickets/">Tickets</a></li>
             <li><a href="/contact/">Contact</a></li>
