@@ -34,6 +34,7 @@
             margin: 20px 0;
         }
         .card{
+            flex: 0 1 calc(30% - 20px);
             border: 1px solid #ccc;
             border-radius: 6px;
             padding: 20px;
@@ -82,13 +83,21 @@
         </div>
     </div>
 
-    
+    {% for movie in movies %}
+        <img src="/media/media/{{ movie.poster }}" alt="{{ movie.title }}">    
+    {% endfor %}
+
+    <img src="/media/media/optimus1.jpg" alt="Image">
     <p>Running Movies</p>
     
     <div class="card-container">
         {% for movie in movies %}
             {% if movie.status == "Now Playing" %}
                 <div class="card">
+                    <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+                    <p>
+                        {{ movie.poster }}
+                    </p>
                     <h3>{{ movie.title }}</h3>
                     <p>{{ movie.release_date }}</p>
                 </div>
@@ -117,7 +126,7 @@
         {% endfor %}
     </ul> -->
     {% include 'footer.html' %}
-    <script>
+    <!-- <script>
         let slideIndex = 0;
         showSlides();
 
@@ -137,7 +146,7 @@
             dots[slideIndex-1].className += " active";
             setTimeout(showSlides, 1000);
         }
-    </script>
+    </script> -->
 
 </body>
 </html>
