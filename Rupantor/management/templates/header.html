@@ -7,7 +7,7 @@
             margin: 0;
         }
         nav {
-            background-color: #333;
+            background-color: #B804B5;
             overflow: hidden;
         }
         ul{
@@ -15,21 +15,39 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            display: flex;
+            justify-content: center;    
         }
         li{
-            float: left;
-            width: 20%;
+            width: auto;
+            margin-right: 30px;
+        }
+        li:last-child {
+            margin-right: 0; 
+        }
+        li:first-child {
+            margin-right: 600px; 
         }
         li a {
             display: block;
             color: white;
             text-align: center;
-            padding: 14px 0;
+            padding: 14px 20px;
             text-decoration: dashed;
         }
         li a:hover {
-            background-color: mediumaquamarine;
-            color: chartreuse;
+            background-color: white;
+            color: #B804B5;
+        }
+        .home-link{
+            font-weight: bold;
+            font-size: 30px;
+            color: white;
+            background-color: #B804B5;
+            padding: 10px;
+        }
+        .home-link:hover {
+            background-color: white;
         }
     </style>
 </head>
@@ -37,7 +55,7 @@
 
     <nav>
         <ul>
-            <li><a href="/">Rupantor</a></li>
+            <li><a href="/" class="home-link">Rupantor</a></li>
             <li><a href="/summerwear/">Summer Wear</a></li>
             <li><a href="/winterwear/">Winter Wear</a></li>
             <li><a href="/cart/">Cart</a></li>
