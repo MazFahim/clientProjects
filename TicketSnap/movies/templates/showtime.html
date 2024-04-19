@@ -4,87 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Showtime</title>
+    <style>
+        .category-title{
+            font-size: larger;
+            margin-left: 50px;
+            color: #AF0AAD;
+        }
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            margin-left: 50px;
+            font-family: Arial, sans-serif;
+            padding-bottom: 500px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-size: 20px;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
     {% include 'headerNavbar.html' %}
-    <table>
-        <tr>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-            <th>Sunday</th>
-        </tr>
-        <tr>
-            <th>18 March</th>
-            <th>19 March</th>
-            <th>20 March</th>
-            <th>21 March</th>
-            <th>22 March</th>
-            <th>23 March</th>
-            <th>24 March</th>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
-    <p>Book Tickets:</p>
-    {% for schedule in movieSchedules.all %}
-    <li>
-        {{ schedule.dayofweek }}<br>
-        <strong>Date:</strong> {{ schedule.date }}<br>
-        <strong>Slot 1 Movie Title:</strong> 
-        {% for movie in movies %}
-            {% if movie.movieId == schedule.slot1_id %}
-                {{ movie.title }}
-            {% endif %}
-        {% endfor %}
-        <br>
-        <strong>Slot 2 Movie Title:</strong> 
-        {% for movie in movies %}
-            {% if movie.movieId == schedule.slot2_id %}
-                {{ movie.title }}
-            {% endif %}
-        {% endfor %}
-        <br>
-    </li>
-    {% endfor %}
+    
+    <h2 class="category-title">Showtimes:</h2>
     <br>
+    <table>
+        <thead>
+          <tr>
+            <th>Day of Week</th>
+            <th>Date</th>
+            <th>02:00 PM</th>
+            <th>07:00 PM</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for schedule in movieSchedules.all %}
+          <tr>
+            <td>{{ schedule.dayofweek }}</td>
+            <td>{{ schedule.date }}</td>
+            <td>
+              {% for movie in movies %}
+                {% if movie.movieId == schedule.slot1_id %}
+                  {{ movie.title }}
+                {% endif %}
+              {% endfor %}
+            </td>
+            <td>
+              {% for movie in movies %}
+                {% if movie.movieId == schedule.slot2_id %}
+                  {{ movie.title }}
+                {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
     {% include 'footer.html' %} 
 </body>
 </html>
