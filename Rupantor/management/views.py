@@ -23,13 +23,23 @@ def home(request):
 
 
 def summerwear(request):
+    wears = Wears.objects.all().values()
+
+    context = {
+        'wears' : wears
+    }
     template = loader.get_template('summerwear.html')
-    return HttpResponse(template.render())
+    return HttpResponse(template.render(context, request))
 
 
 def winterwear(request):
+    wears = Wears.objects.all().values()
+
+    context = {
+        'wears' : wears
+    }
     template = loader.get_template('winterwear.html')
-    return HttpResponse(template.render())
+    return HttpResponse(template.render(context, request))
 
 
 def cart(request):
