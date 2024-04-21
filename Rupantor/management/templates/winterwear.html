@@ -61,12 +61,12 @@
                     <img src="/media/{{ product.productImage }}" alt="no image">
                     <p>{{ product.productName }}</p>
                     <p>Color: {{ product.productColor }}</p>
-                    <p>Color: {{ product.productBody }}</p>
-                    <p>Color: {{ product.frontLength }}</p>
+                    <p>Body: {{ product.productBody }}</p>
+                    <p> {{ product.frontLength }}</p>
                     {% if product.backLength == "0" %}
 
                     {% else %}
-                        {{ product.backLength }}
+                        <p>{{ product.backLength }}</p>
                     {% endif %}
                     <p>Price: {{ product.productPrice }}</p>
                     <p>Available: {{ product.available }}</p>
