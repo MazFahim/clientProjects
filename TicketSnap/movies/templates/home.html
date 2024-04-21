@@ -8,7 +8,7 @@
         .category-title{
             font-size: larger;
             margin-left: 50px;
-            color: #AF0AAD;
+            color: #555;
         }
         .card-container{
             display: flex;
@@ -57,7 +57,7 @@
 <body>
     {% include 'headerNavbar.html' %}
 
-    <h2 class="category-title">Running Movies</h1>
+    <h1 class="category-title">Running Movies</h1>
     
     <div class="card-container">
         {% for movie in movies %}

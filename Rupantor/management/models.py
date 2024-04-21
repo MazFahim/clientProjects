@@ -7,15 +7,18 @@ class Wears(models.Model):
     ]
     productId = models.AutoField(primary_key=True)
     category = models.CharField(max_length=20, choices=categoryChoice)
-    productName = models.CharField(max_length=50)
-    productColor = models.CharField(max_length=20, null=True)
+    productName = models.CharField(max_length=100)
+    productColor = models.CharField(max_length=50, null=True)
     productBody = models.CharField(max_length=30, null=True)
-    frontLength = models.IntegerField(null=True)
-    backLength = models.IntegerField(null=True)
+    frontLength = models.CharField(max_length=30, null=True)
+    backLength = models.CharField(max_length=30, null=True)
     productPrice = models.DecimalField(max_digits=8, decimal_places=2)
     available = models.IntegerField()
     description = models.TextField()
     productImage = models.ImageField(blank=True)
+
+    def __str__(self):
+        return f"{self.productName} - {self.category}"
 
 class Cart(models.Model):
     productId = models.IntegerField()
@@ -30,8 +33,19 @@ class CustomerMessage(models.Model):
     subject = models.CharField(max_length=20)
     msg = models.TextField()
 
+    def __str__(self):
+        return f"{self.name} - {self.subject}"
+
 class Featured(models.Model):
-    pass
+    message = models.CharField(max_length=50, default='Featured')
+    product = models.ForeignKey(Wears, related_name='featured', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"{self.message}"
 
 class Offer(models.Model):
-    pass
+    Discount = models.CharField(max_length=50, default='Discounts')
+    product = models.ForeignKey(Wears, related_name='discounted', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"Discounts: {self.Discount} - {self.product}"
