@@ -43,3 +43,12 @@ class CustomerMessage(models.Model):
     email = models.CharField(max_length=50)
     subject = models.CharField(max_length=20)
     msg = models.TextField()
+
+class Booking(models.Model):
+    Seat_Choices = [(f'Row {i} Seat {j}', f'Row {i} Seat {j}') for i in range(1, 6) for j in range(1, 9)]
+
+    seat = models.CharField(max_length=15, choices=Seat_Choices, default='Row 1 Seat 1')
+    booked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.seat} - {'Booked' if self.booked else 'Available'}"

@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(Movie)
 admin.site.register(Showtime)
 admin.site.register(CustomerMessage)
+admin.site.register(Booking)
