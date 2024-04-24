@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 class Wears(models.Model):
     categoryChoice = [
@@ -25,6 +26,10 @@ class Cart(models.Model):
     productName = models.CharField(max_length=50)
     productAmount = models.IntegerField()
     productPrice = models.IntegerField()
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
 
 class CustomerMessage(models.Model):
     msgId = models.AutoField(primary_key=True)

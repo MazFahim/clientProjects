@@ -4,7 +4,13 @@ from django.template import loader
 from .models import *
 
 def test(request):
-    return HttpResponse('Rupantor')
+    cart = Cart.objects.all().values()
+    template = loader.get_template('test.html')
+    context = {
+        'cart' : cart
+    }
+    # return HttpResponse(template.render(context, request))
+    return HttpResponse('Hello')
 
 
 def home(request):
