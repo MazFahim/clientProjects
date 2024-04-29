@@ -22,14 +22,20 @@ class Wears(models.Model):
         return f"{self.productName} - {self.category}"
 
 class Cart(models.Model):
-    productId = models.IntegerField()
-    productName = models.CharField(max_length=50)
-    productAmount = models.IntegerField()
-    productPrice = models.IntegerField()
+    product = models.ForeignKey(Wears, on_delete=models.CASCADE, null= True)
+    quantity = models.IntegerField(default=1)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='cart',
+        null=True
     )
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.productName} - {self.quantity}"
 
 class CustomerMessage(models.Model):
     msgId = models.AutoField(primary_key=True)
