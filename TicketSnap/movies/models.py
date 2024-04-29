@@ -44,11 +44,50 @@ class CustomerMessage(models.Model):
     subject = models.CharField(max_length=20)
     msg = models.TextField()
 
-class Booking(models.Model):
-    Seat_Choices = [(f'Row {i} Seat {j}', f'Row {i} Seat {j}') for i in range(1, 6) for j in range(1, 9)]
 
-    seat = models.CharField(max_length=15, choices=Seat_Choices, default='Row 1 Seat 1')
-    booked = models.BooleanField(default=False)
+class Seat(models.Model):
+    # Seat_Choices = [(f'Row {i} Seat {j}', f'Row {i} Seat {j}') for i in range(1, 6) for j in range(1, 9)]
+    # seat = models.CharField(max_length=15, choices=Seat_Choices, default='Row 1 Seat 1')
+    # booked = models.BooleanField(default=False)
+    
+    row = models.IntegerField()
+    number = models.IntegerField()
+    is_booked = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('row', 'number')
 
     def __str__(self):
-        return f"{self.seat} - {'Booked' if self.booked else 'Available'}"
+        return f"Row {self.row} Seat {self.number} - {'Booked' if self.is_booked else 'Available'}"
+
+class ShowtimeMapper(models.Model):
+    SLOT_CHOICES = [
+        ('Slot1', 'Slot 1'),
+        ('Slot2', 'Slot 2'),
+    ]
+
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    date = models.DateField(default=None)
+    slotChoice = models.CharField(max_length=20, choices=SLOT_CHOICES, default='slot not chosen')
+
+    def __str__(self):
+        return f"{self.date} - {self.slotChoice} - {self.movie}"
+
+class Booking(models.Model):
+    SLOT_CHOICES = [
+        ('Slot1', 'Slot 1'),
+        ('Slot2', 'Slot 2'),
+    ]
+
+    seats = models.ManyToManyField(Seat)
+    bookingTime = models.ForeignKey(ShowtimeMapper, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f"Booking for {self.bookingTime}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Mark seats as booked when the booking is saved
+        #self.seats.update(is_booked=True)
+        if self.seats.exists():  # Check if there are any seats associated before updating
+            self.seats.update(is_booked=True)
