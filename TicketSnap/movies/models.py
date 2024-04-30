@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 class Movie(models.Model):
     movieId = models.AutoField(primary_key=True)
@@ -81,9 +82,15 @@ class Booking(models.Model):
 
     seats = models.ManyToManyField(Seat)
     bookingTime = models.ForeignKey(ShowtimeMapper, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='cart',
+        null=True
+    )
 
     def __str__(self):
-        return f"Booking for {self.bookingTime}"
+        return f"Booking for {self.bookingTime}-{self.user}"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

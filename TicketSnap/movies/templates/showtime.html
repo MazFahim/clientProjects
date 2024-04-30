@@ -5,42 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Showtime</title>
     <style>
-        .category-title{
-            font-size: larger;
-            margin-left: 50px;
-            color: #AF0AAD;
-        }
-        table {
-            width: 70%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            margin-left: 50px;
-            font-family: Arial, sans-serif;
-            padding-bottom: 500px;
-        }
-        
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-            font-size: 20px;
-        }
-        
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+      body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+      }
+      .category-title{
+          font-size: 28px;
+          margin-left: 50px;
+          color: #2980B9 ;
+          padding-top: 20px;
+      }
+      table {
+          width: 90%;
+          border-collapse: collapse;
+          margin: 20px auto;
+          background-color: white;
+          box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      }
+      
+      th, td {
+          border: 1px solid #ddd;
+          padding: 12px;
+          text-align: left;
+          font-size: 18px;
+          font-weight: bold;
+      }
+      
+      th {
+          background-color: #2980B9;
+          color: white;
+          font-weight: bold;
+      }
+      
+      tr:nth-child(even) {
+          background-color: #f2f2f2;
+      }
+      .button {
+        display: inline-block;
+        margin-left: 50px;
+        margin-top: 50px;
+        padding: 15px 25px;
+        font-size: 16px;
+        color: white;
+        background-color: #2ECC71;
+        text-align: center;
+        border-radius: 5px;
+        text-decoration: none; /* Removes underline from the link */
+        transition: background-color 0.3s;
+    }
+
+    .button:hover {
+        background-color: #555; /* Darker shade on hover */
+    }
+
     </style>
 </head>
 <body>
-    {% include 'headerNavbar.html' %}
-    
+    <header>
+        {% include 'headerNavbar.html' %}
+    </header>
+
     <h2 class="category-title">Showtimes:</h2>
-    <br>
     <table>
         <thead>
           <tr>
@@ -73,7 +100,9 @@
           {% endfor %}
         </tbody>
       </table>
-      
+    
+    <a href="/tickets/" class="button">Book Tickets</a>
+
     <!-- {% include 'footer.html' %}  -->
 </body>
 </html>
