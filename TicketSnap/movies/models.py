@@ -46,20 +46,16 @@ class CustomerMessage(models.Model):
     msg = models.TextField()
 
 
-class Seat(models.Model):
-    # Seat_Choices = [(f'Row {i} Seat {j}', f'Row {i} Seat {j}') for i in range(1, 6) for j in range(1, 9)]
-    # seat = models.CharField(max_length=15, choices=Seat_Choices, default='Row 1 Seat 1')
-    # booked = models.BooleanField(default=False)
-    
+class Seat(models.Model):    
     row = models.IntegerField()
     number = models.IntegerField()
-    is_booked = models.BooleanField(default=False)
+    # is_booked = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('row', 'number')
 
     def __str__(self):
-        return f"Row {self.row} Seat {self.number} - {'Booked' if self.is_booked else 'Available'}"
+        return f"Row {self.row} Seat {self.number}"
 
 class ShowtimeMapper(models.Model):
     SLOT_CHOICES = [
@@ -75,26 +71,25 @@ class ShowtimeMapper(models.Model):
         return f"{self.date} - {self.slotChoice} - {self.movie}"
 
 class Booking(models.Model):
-    SLOT_CHOICES = [
-        ('Slot1', 'Slot 1'),
-        ('Slot2', 'Slot 2'),
-    ]
-
-    seats = models.ManyToManyField(Seat)
+    # seats = models.ManyToManyField(Seat)
+    seat = models.ForeignKey(Seat, on_delete=models.CASCADE, null=True)
     bookingTime = models.ForeignKey(ShowtimeMapper, on_delete=models.CASCADE, null=True)
+    is_booked = models.BooleanField(default=False)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='cart',
         null=True
     )
+    class Meta:
+        unique_together = ('seat', 'bookingTime')
 
     def __str__(self):
         return f"Booking for {self.bookingTime}-{self.user}"
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # Mark seats as booked when the booking is saved
-        #self.seats.update(is_booked=True)
-        if self.seats.exists():  # Check if there are any seats associated before updating
-            self.seats.update(is_booked=True)
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     # Mark seats as booked when the booking is saved
+    #     #self.seats.update(is_booked=True)
+    #     if self.seats.exists():  # Check if there are any seats associated before updating
+    #         self.seats.update(is_booked=True)

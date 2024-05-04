@@ -3,19 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
+    <title>Tickets</title>
+    <style>
+      .container {
+        width: 90%;
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        background: #fff;
+        border-radius: 8px;
+        font-family: 'Arial', sans-serif;
+    }
+    .showtime-selector {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .showtime-selector select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+        font-size: 16px;
+    }
+    .seats-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .row {
+        text-align: center;
+        margin-bottom: 5px;
+    }
+    .seat {
+        width: 40px;
+        height: 40px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+        font-size: 14px;
+    }
+    .seat.booked {
+        background-color: #f44336;
+        cursor: not-allowed;
+    }
+    .seat.selected {
+        background-color: #ffeb3b;
+        color: black;
+    }
+    button[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button[type="submit"]:hover {
+        background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
-    {% include 'headerNavbar.html' %}
+  {% include 'headerNavbar.html' %}
 
-    <table>
-        <tr>
-            <th>Poster</th>
-            <th>Details</th>
-            <th>Buy Ticket</th>
-        </tr>
-    </table>
+  <div class="container">
+    <form method="post" action="{% url 'tickets' %}">
+        {% csrf_token %}
+        <div class="showtime-selector">
+            <label for="showtime_mapper">Select Showtime:</label>
+            <select name="showtime_mapper" id="showtime_mapper" required>
+                {% for showtime in showtimes %}
+                    <option value="{{ showtime.id }}">{{ showtime.movie.title }} on {{ showtime.date }} at {{ showtime.slotChoice }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
+        <div class="seats-grid">
+            {% for i in rows %}
+                <div class="row">
+                    {% for seat in seats %}
+                        {% if forloop.parentloop.counter|stringformat:"s" == seat.row|stringformat:"s" %}
+                            <button type="button" class="seat {% if seat.is_booked %}booked{% else %}selectable{% endif %}"
+                                    data-seat-id="{{ seat.id }}"
+                                    {% if seat.is_booked %}disabled{% endif %}
+                                    onclick="toggleSelection(this);">
+                                {{ seat.row }}{{ seat.number }}
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit">Book Seats</button>
+    </form>
+</div>
+
+<script>
+    function toggleSelection(element) {
+        if (!element.classList.contains('booked')) {
+            element.classList.toggle('selected');
+            var seatId = element.getAttribute('data-seat-id');
+            // Toggle hidden input field for the form submission
+            if (element.classList.contains('selected')) {
+                element.form.insertAdjacentHTML('beforeend', '<input type="hidden" name="seats" value="' + seatId + '" id="input-' + seatId + '">');
+            } else {
+                var inputElement = document.getElementById('input-' + seatId);
+                inputElement.parentNode.removeChild(inputElement);
+            }
+        }
+    }
+</script>
     <!-- {% include 'footer.html' %} -->
 </body>
 </html>
