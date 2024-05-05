@@ -18,7 +18,7 @@
         th {
             background-color: #f4f4f4;
         }
-        .cart-container {
+        .cart-container, .shipped-container{
             width: 90%;
             margin: auto;
         }
@@ -95,7 +95,7 @@
         </table>
         <div class="payment-options">
             <h3>Choose Payment Method</h3>
-            <form action="" method="post">
+            <form action="{% url 'confirm_shipment' %}" method="post">
                 {% csrf_token %}
                 <label>
                     <input type="radio" name="payment_method" value="cash_on_delivery" checked>
@@ -110,6 +110,33 @@
         </div>
         {% else %}
         <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+    <div class="shipped-container">
+        <h2>Shipped Items</h2>
+        {% if shipped_items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Payment Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in shipped_items %}
+                <tr>
+                    <td>{{ item.product.productName }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>৳{{ item.product.productPrice }}</td>
+                    <td>{{ item.payment_method }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No shipped items.</p>
         {% endif %}
     </div>
 </body>

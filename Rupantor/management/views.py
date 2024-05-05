@@ -75,11 +75,14 @@ def add_to_cart(request, product_id):
 
 def cart(request):
     template = loader.get_template('cart.html')
+
     cart_items = Cart.objects.filter(user=request.user)
+    shipped_items = Shipping.objects.filter(user=request.user)
     for item in cart_items:
         item.subtotal = item.quantity * item.product.productPrice
     context = {
-        'cart_items': cart_items
+        'cart_items': cart_items,
+        'shipped_items': shipped_items
     }
     return HttpResponse(template.render(context, request))
 
@@ -94,3 +97,26 @@ def remove_from_cart(request, item_id):
 def contact(request):
     template = loader.get_template('contact.html')
     return HttpResponse(template.render())
+
+
+@login_required
+def confirm_shipment(request):
+    if request.method == 'POST':
+        cart_items = Cart.objects.filter(user=request.user)
+        payment_method = request.POST.get('payment_method')
+
+        # Create Shipping entries from Cart items
+        for item in cart_items:
+            Shipping.objects.create(
+                user=request.user,
+                product=item.product,
+                quantity=item.quantity,
+                payment_method=payment_method
+            )
+
+        # Clear the Cart after transferring to Shipping
+        cart_items.delete()
+
+        return HttpResponse('order_confirmed')
+    else:
+        return redirect('cart')
