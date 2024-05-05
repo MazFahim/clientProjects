@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.productName }}</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;  /* Flexbox layout */
+            justify-content: space-between; /* Space between the main sections */
+            align-items: flex-start; /* Align items at the start of the flex container */
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .product-details, .cart-details {
+            flex: 1;  /* Both sections take equal width */
+            padding: 10px;
+        }
+        .product-image {
+            width: 100%;  /* Make image responsive within its container */
+            max-width: 450px;  /* Limit maximum width to prevent overly large images */
+            height: auto;
+        }
+        .details p {
+            font-size: 18px;
+            color: #333;
+        }
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: blue;
+        }
+        .cart-details {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center align the items */
+            justify-content: center; /* Vertically center the items */
+            margin-top: 50px; /* Increased top margin for the cart details */
+        }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px; /* Increased spacing below the quantity control */
+        }
+        .quantity-btn {
+            padding: 8px 12px; /* Slightly larger buttons */
+            font-size: 18px; /* Larger font size for better readability */
+            margin: 0 10px; /* More space around buttons */
+            cursor: pointer;
+        }
+        #quantity {
+            font-size: 20px; /* Larger font size for quantity display */
+            padding: 0 15px; /* More visual space around quantity */
+        }
+        #add-button {
+            width: 100%; /* Button covers more space */
+            padding: 15px 20px; /* Larger and more padded button */
+            font-size: 18px; /* Larger font size */
+            margin-top: 20px; /* Space above the button */
+            cursor: pointer;
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            border: none;
+            border-radius: 5px; /* Rounded corners */
+        }
+    </style>
+</head>
+<body>
+    
+{% include 'header.html' %}
+
+<div class="container">
+    <div class="product-details">
+        <h1>{{ product.productName }}</h1>
+        <img src="{{ product.productImage.url }}" alt="{{ product.productName }}" class="product-image">
+        <div class="details">
+            <p><strong>Category:</strong> {{ product.get_category_display }}</p>
+            <p><strong>Color:</strong> {{ product.productColor }}</p>
+            <p><strong>Body:</strong> {{ product.productBody }}</p>
+            <p><strong>Front Length:</strong> {{ product.frontLength }}</p>
+            <p><strong>Back Length:</strong> {{ product.backLength }}</p>
+            <p><strong>Price:</strong> ${{ product.productPrice }}</p>
+            <p><strong>Available:</strong> {{ product.available }}</p>
+            <p><strong>Description:</strong> {{ product.description }}</p>
+        </div>
+    </div>
+    <div class="cart-details">
+        <h2>Add to Cart</h2>
+        <div class="quantity-control">
+            <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+            <span id="quantity">1</span>
+            <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+        </div>
+        <button id="add-button" onclick="addToCart()">Add to Cart</button>
+    </div>
+</div>
+<script>
+    function changeQuantity(change) {
+        var quantityElement = document.getElementById('quantity');
+        var currentQuantity = parseInt(quantityElement.textContent);
+        if (currentQuantity + change > 0) {
+            quantityElement.textContent = currentQuantity + change;
+        }
+    }
+
+    function addToCart() {
+        var quantity = document.getElementById('quantity').textContent;
+        alert("Added " + quantity + " items to cart!"); // This is a placeholder
+        // Implement actual cart logic here
+    }   
+</script>
+
+</body>
+</html>

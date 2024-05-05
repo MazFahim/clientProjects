@@ -54,15 +54,17 @@
 
     <div class="card-container">
         {% for x in featured %}
-            <div class="card">
-                <!-- <a href="{{ x.trailer_url }}"><img src="/media/media/{{ movie.poster }}" alt="{{ x.title }}"></a> -->
-                <p><strong>{{ x.message }}</strong></p>
-                {% for product in products %}
+        <div class="card">
+            <!-- <a href="{{ x.trailer_url }}"><img src="/media/media/{{ movie.poster }}" alt="{{ x.title }}"></a> -->
+            <p><strong>{{ x.message }}</strong></p>
+            {% for product in products %}
+                <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
                     {% if product.productId == x.product_id %}
                         <img src="/media/{{ product.productImage }}" alt="no image">
                         <p>{{ product.productName }}</p>
                         <p>Price: {{ product.productPrice }}</p>
                     {% endif %}
+                    </a>
                 {% endfor %}
             </div>
         {% endfor %}
@@ -73,15 +75,18 @@
     
     <div class="card-container">
         {% for x in offers %}
-            <div class="card">
-                <!-- <a href="{{ x.trailer_url }}"><img src="/media/media/{{ movie.poster }}" alt="{{ x.title }}"></a> -->
-                <p><strong>Discounts: {{ x.Discount }}</strong></p>
-                {% for product in products %}
+        
+        <div class="card">
+            <!-- <a href="{{ x.trailer_url }}"><img src="/media/media/{{ movie.poster }}" alt="{{ x.title }}"></a> -->
+            <p><strong>Discounts: {{ x.Discount }}</strong></p>
+            {% for product in products %}
+                <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
                     {% if product.productId == x.product_id %}
                         <img src="/media/{{ product.productImage }}" alt="no image">
                         <p>{{ product.productName }}</p>
                         <p>Price: {{ product.productPrice }}</p>
-                    {% endif %}
+                        {% endif %}
+                </a>
                 {% endfor %}
             </div>
         {% endfor %}

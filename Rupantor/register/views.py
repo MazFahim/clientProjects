@@ -24,12 +24,12 @@ def login_view(request):
                 login(request, user)
                 return redirect('/')
             else:
-                return render(request, 'accounts/login.html', {'form': form, 'error': "Invalid username or password."})
+                return render(request, 'register/login.html', {'form': form, 'error': "Invalid username or password."})
     
     else:
         form = LoginForm(request.POST)
                 
-    return render(request, 'accounts/login.html', {'form': form})
+    return render(request, 'register/login.html', {'form': form})
 
 def logout_view(request):
     logout(request)

@@ -56,22 +56,24 @@
     <div class="card-container">
         {% for product in wears %}
             {% if product.category == "SummerWear" %}
+            <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
                 <div class="card">
                 <p><strong>{{ product.productName }}</strong></p>
                     <img src="/media/{{ product.productImage }}" alt="no image">
                     <p>{{ product.productName }}</p>
-                    <p>Color: {{ product.productColor }}</p>
-                    <p>Body: {{ product.productBody }}</p>
-                    <p> {{ product.frontLength }}</p>
+                    <!-- <p>Color: {{ product.productColor }}</p> -->
+                    <!-- <p>Body: {{ product.productBody }}</p> -->
+                    <!-- <p> {{ product.frontLength }}</p>
                     {% if product.backLength == "0" %}
 
                     {% else %}
                         <p>{{ product.backLength }}</p>
-                    {% endif %}
+                    {% endif %} -->
                     <p>Price: {{ product.productPrice }}</p>
-                    <p>Available: {{ product.available }}</p>
-                    <p>{{ product.description }}</p>
+                    <!-- <p>Available: {{ product.available }}</p>
+                    <p>{{ product.description }}</p> -->
                 </div>
+            </a>
             {% endif %}
         {% endfor %}
     </div>

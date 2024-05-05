@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from .models import *
@@ -47,6 +47,16 @@ def winterwear(request):
     template = loader.get_template('winterwear.html')
     return HttpResponse(template.render(context, request))
 
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Wears, productId=product_id)
+    return render(request, 'product_detail.html', {'product': product})
+
+
+def testProduct(request):
+    #product = get_object_or_404(Wears, productId=product_id)
+    template = loader.get_template('product_detail.html')
+    return HttpResponse(template.render())
 
 def cart(request):
     template = loader.get_template('cart.html')
