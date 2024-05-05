@@ -4,6 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .form-container {
+            margin-left: 200px;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 60px); /* Assuming header is approximately 60px high */
+        }
+        form {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 300px;
+            margin-top: 20px; /* Adds some space under the header */
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 20px;
+            color: #333;
+        }
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     {% include 'header.html' %}
@@ -19,6 +66,6 @@
         <input type="text" name="message" placeholder="Your Message"><br><br>
     </form>
     
-    {% include 'footer.html' %}
+    <!-- {% include 'footer.html' %} -->
 </body>
 </html>

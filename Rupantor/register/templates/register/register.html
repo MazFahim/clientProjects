@@ -4,15 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Updated font for modern look */
+            background-color: #f7f7f7; /* Softer shade of grey */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+        }
+        form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 400px; /* Wider form for better spacing */
+            box-sizing: border-box; /* Ensures padding is included in width */
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px; /* Added space below the heading */
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: calc(100% - 16px); /* Full width minus padding for perfect alignment */
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px; /* More space between fields */
+            border: 1px solid #ccc;
+            border-radius: 5px; /* Slightly less rounded for a modern look */
+            font-size: 16px; /* Larger font size for better readability */
+        }
+        button {
+            background-color: #007BFF; /* Bootstrap primary blue */
+            color: white;
+            border: none;
+            padding: 12px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px; /* Larger font for button */
+            letter-spacing: 1px; /* Spacing between letters */
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker blue for hover effect */
+        }
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF; /* Blue color to match the button */
+            text-decoration: none; /* Removes underline */
+        }
+        .login-link:hover {
+            color: #0056b3; /* Darker blue for hover effect */
+            text-decoration: underline; /* Optional: add underline on hover for visual feedback */
+        }
+    </style>
 </head>
 <body>
-    Create Account
-
     <form method="POST">
         {% csrf_token %}
-        {{ form }}
-
+        <h2>Create Account</h2>
+        <div>
+            <input type="text" name="{{ form.username.name }}" placeholder="Username">
+        </div>
+        <div>
+            <input type="email" name="{{ form.email.name }}" placeholder="Email Address">
+        </div>
+        <div>
+            <input type="password" name="{{ form.password1.name }}" placeholder="Password">
+        </div>
+        <div>
+            <input type="password" name="{{ form.password2.name }}" placeholder="Confirm Password">
+        </div>
         <button type="submit">Register</button>
+        <a href="{% url 'login' %}" class="login-link">Already have an account? Login</a>
     </form>
 </body>
 </html>
