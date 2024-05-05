@@ -37,40 +37,35 @@
             color: blue;
         }
         .cart-details {
-            border: 1px solid #ccc;
-            padding: 20px;
-            max-width: 400px;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center align the items */
-            justify-content: center; /* Vertically center the items */
-            margin-top: 50px; /* Increased top margin for the cart details */
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px; 
         }
         .quantity-control {
             display: flex;
             align-items: center;
-            margin-bottom: 30px; /* Increased spacing below the quantity control */
+            justify-content: center;
+            margin-bottom: 10px;
         }
-        .quantity-btn {
-            padding: 8px 12px; /* Slightly larger buttons */
-            font-size: 18px; /* Larger font size for better readability */
-            margin: 0 10px; /* More space around buttons */
-            cursor: pointer;
+        .quantity-control button, .quantity-control input {
+            font-size: 16px;
+            padding: 5px 10px;
+            margin: 0 5px;
         }
-        #quantity {
-            font-size: 20px; /* Larger font size for quantity display */
-            padding: 0 15px; /* More visual space around quantity */
+        .quantity-control input {
+            text-align: center;
+            max-width: 50px; /* Keeps the input box from becoming too large */
         }
         #add-button {
-            width: 100%; /* Button covers more space */
-            padding: 15px 20px; /* Larger and more padded button */
-            font-size: 18px; /* Larger font size */
-            margin-top: 20px; /* Space above the button */
-            cursor: pointer;
-            background-color: #4CAF50; /* Green background */
-            color: white; /* White text */
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50; /* Example color */
+            color: white;
             border: none;
-            border-radius: 5px; /* Rounded corners */
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -93,30 +88,27 @@
             <p><strong>Description:</strong> {{ product.description }}</p>
         </div>
     </div>
-    <div class="cart-details">
-        <h2>Add to Cart</h2>
-        <div class="quantity-control">
-            <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
-            <span id="quantity">1</span>
-            <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
-        </div>
-        <button id="add-button" onclick="addToCart()">Add to Cart</button>
-    </div>
+    <div class="cart-form">
+        <form method="post" action="{% url 'add_to_cart' product.productId %}">
+            {% csrf_token %}
+            <div class="quantity-control">
+                <button type="button" onclick="changeQuantity(-1)">-</button>
+                <input type="text" name="quantity" id="quantity" value="1" readonly>
+                <button type="button" onclick="changeQuantity(1)">+</button>
+            </div>
+            <button type="submit" id="add-button">Add to Cart</button>
+        </form>
+    </div>  
 </div>
 <script>
     function changeQuantity(change) {
-        var quantityElement = document.getElementById('quantity');
-        var currentQuantity = parseInt(quantityElement.textContent);
-        if (currentQuantity + change > 0) {
-            quantityElement.textContent = currentQuantity + change;
+        var quantityInput = document.getElementById('quantity');
+        var currentQuantity = parseInt(quantityInput.value, 10);
+        var newQuantity = currentQuantity + change;
+        if (newQuantity > 0) {
+            quantityInput.value = newQuantity;
         }
     }
-
-    function addToCart() {
-        var quantity = document.getElementById('quantity').textContent;
-        alert("Added " + quantity + " items to cart!"); // This is a placeholder
-        // Implement actual cart logic here
-    }   
 </script>
 
 </body>
