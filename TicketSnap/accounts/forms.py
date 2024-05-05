@@ -10,7 +10,20 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ["username", "email", "password1", "password2"]
 
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        self.fields['username'].help_text = None
+        self.fields['password1'].help_text = None
+        self.fields['password2'].help_text = None
+        self.fields['username'].label = ''
+        self.fields['password1'].label = ''
+        self.fields['password2'].label = ''
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(
+        error_messages={'required': ''}  # Customize or remove the message
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput,
+        error_messages={'required': ''} 
+    )
