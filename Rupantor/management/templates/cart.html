@@ -57,6 +57,9 @@
         .confirm-btn:hover {
             background-color: #3e8e41;
         }
+        input[type="radio"]:disabled + label {
+            color: #aaa; /* Grey out the label text */
+        }
     </style>
 </head>
 <body>
@@ -102,7 +105,7 @@
                     Cash on Delivery
                 </label>
                 <label>
-                    <input type="radio" name="payment_method" value="bkash">
+                    <input type="radio" name="payment_method" value="bkash" disabled>
                     bKash Payment
                 </label>
                 <button type="submit" class="confirm-btn">Confirm Shipment</button>

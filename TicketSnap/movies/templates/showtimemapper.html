@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-image: url('/media/bg-pic.jpg');
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            color: azure;
+            margin-left: 50px;
+        }
+        .movie-container{
+            align-items: center;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-left: 200px;
+        }
+        .movie-image{
+            flex: 1; 
+            padding-right: 20px; 
+        }
+        .movie-image img{
+            width: 300px;
+            height: 300px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .movie-details{
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-top: 0;
+        }
+        .movie-info{
+            font-size: 16px;
+            padding-bottom: 10px;
+        }
+        .details-button{
+            width: 450px;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;;
+            color: azure;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none; 
+            border-radius: 4px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+{% include 'headerNavbar.html' %}
+
+{% for Schedule in showtimes %}
+    <div class="movie-container">
+        {% for movie in movies %}
+            {% if movie.movieId == Schedule.movie_id %}
+                <div class="movie-image">
+                    <img src="/media/media/{{ movie.poster }}" alt="{{ movie.title }}">
+                </div>
+                <div class="movie-details">
+                    <div class="movie-info">
+                        {{ movie.title }}&nbsp;&nbsp;-&nbsp;
+                        {{ Schedule.date }}&nbsp;&nbsp;-&nbsp;
+                        {% if Schedule.slotChoice == 'Slot1' %}
+                            02:00 PM
+                        {% else %}
+                            07:00 PM
+                        {% endif %}
+                    </div>
+                    {% if request.user.is_authenticated  %}
+                        <button class="details-button" onclick="location.href='/movies/{{ Schedule.id }}'">Buy Tickets</button>
+                    {% else %}
+                        <button class="details-button" onclick="location.href='/login/'">Buy Tickets</button>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <br>
+    </div>
+{% endfor %}
+</body>
+</html>

@@ -7,9 +7,12 @@ from .forms import CustomerMessageForm
 from django.db import transaction
 from django.contrib import messages
 
-def movies(request):
+def movies(request, id):
     template = loader.get_template('first.html')
-    return HttpResponse(template.render())
+    context = {
+        'movie' : movie
+    }
+    return HttpResponse(template.render(context, request))
 
 def home(request):
     movies = Movie.objects.all().values()
@@ -33,7 +36,8 @@ def showtime(request):
 
 
 @login_required
-def tickets(request):
+def tickets(request, id):
+    movie = Movie.objects.get(pk=id)
     if request.method == 'POST':
         showtime_mapper_id = request.POST.get('showtime_mapper')
         seat_ids = request.POST.getlist('seats')
@@ -61,6 +65,7 @@ def tickets(request):
     showtimes = ShowtimeMapper.objects.all().select_related('movie')
     seats = Seat.objects.all()  
     context = {
+        'movie': movie,
         'showtimes': showtimes,
         'seats': seats,
         'rows': 'ABCDE',
@@ -68,55 +73,15 @@ def tickets(request):
     }
     return render(request, 'tickets.html', context)
 
-
-# @login_required
-# def tickets(request):
-#     # Pre-fetch all showtimes and their related movies
-#     showtimes = ShowtimeMapper.objects.all().select_related('movie')
-    
-#     # Pre-fetch all seats and order them by row and number for display
-#     seats = Seat.objects.all().order_by('row', 'number')
-
-#     # Organize seats by rows
-#     seats_by_row = {row: [] for row in 'ABCDE'}  # Assuming rows are labeled from 'A' to 'E'
-#     for seat in seats:
-#         seats_by_row[seat.row].append(seat)
-
-#     if request.method == 'POST':
-#         # Extract the selected showtime and seats from the POST request
-#         showtime_mapper_id = request.POST.get('showtime_mapper')
-#         seat_ids = request.POST.getlist('seats')
-#         showtime_mapper = ShowtimeMapper.objects.get(id=showtime_mapper_id)
-        
-#         with transaction.atomic():
-#             # Check for already booked seats
-#             if Booking.objects.filter(bookingTime=showtime_mapper, seat_id__in=seat_ids, is_booked=True).exists():
-#                 return HttpResponse("One or more seats are already booked.", status=400)
-
-#             # Check if the user has already booked any of these seats for this showtime
-#             if Booking.objects.filter(bookingTime=showtime_mapper, seat_id__in=seat_ids, user=request.user).exists():
-#                 return HttpResponse("You have already booked one or more of the selected seats for this showtime.", status=400)
-
-#             # Proceed to create bookings for each selected seat
-#             for seat_id in seat_ids:
-#                 seat = Seat.objects.get(id=seat_id)
-#                 Booking.objects.create(
-#                     seat=seat,
-#                     bookingTime=showtime_mapper,
-#                     user=request.user,
-#                     is_booked=True
-#                 )
-        
-#         # Redirect to a success or home page upon successful booking
-#         return redirect('/')
-
-#     # For GET requests or initial page load, prepare the context data for the template
-#     context = {
-#         'showtimes': showtimes,
-#         'seats_by_row': seats_by_row,
-#     }
-#     return render(request, 'tickets.html', context)
-
+def showtimeMapper(request):
+    showtimes = ShowtimeMapper.objects.all().values()
+    movies = Movie.objects.all().values()
+    template = loader.get_template('showtimemapper.html')
+    context = {
+        'showtimes' : showtimes,
+        'movies' : movies
+    }
+    return HttpResponse(template.render(context, request))
 
 def contact(request):
     if request.POST:

@@ -71,7 +71,6 @@ class ShowtimeMapper(models.Model):
         return f"{self.date} - {self.slotChoice} - {self.movie}"
 
 class Booking(models.Model):
-    # seats = models.ManyToManyField(Seat)
     seat = models.ForeignKey(Seat, on_delete=models.CASCADE, null=True)
     bookingTime = models.ForeignKey(ShowtimeMapper, on_delete=models.CASCADE, null=True)
     is_booked = models.BooleanField(default=False)
@@ -86,10 +85,3 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking for {self.bookingTime}-{self.user}"
-
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #     # Mark seats as booked when the booking is saved
-    #     #self.seats.update(is_booked=True)
-    #     if self.seats.exists():  # Check if there are any seats associated before updating
-    #         self.seats.update(is_booked=True)
