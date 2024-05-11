@@ -105,7 +105,9 @@
         var quantityInput = document.getElementById('quantity');
         var currentQuantity = parseInt(quantityInput.value, 10);
         var newQuantity = currentQuantity + change;
-        if (newQuantity > 0) {
+
+        var availableQuantity = parseInt("{{ product.available }}", 10)
+        if (newQuantity > 0 && newQuantity <= availableQuantity) {
             quantityInput.value = newQuantity;
         }
     }
