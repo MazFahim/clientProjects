@@ -6,63 +6,63 @@
     <title>Register</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Updated font for modern look */
-            background-color: #f7f7f7; /* Softer shade of grey */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f7f7f7; 
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Full viewport height */
+            height: 100vh;
         }
         form {
             background-color: white;
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 400px; /* Wider form for better spacing */
-            box-sizing: border-box; /* Ensures padding is included in width */
+            width: 400px; 
+            box-sizing: border-box; 
         }
         h2 {
             text-align: center;
             color: #333;
-            margin-bottom: 20px; /* Added space below the heading */
+            margin-bottom: 20px; 
         }
         input[type="text"],
         input[type="password"],
         input[type="email"] {
-            width: calc(100% - 16px); /* Full width minus padding for perfect alignment */
+            width: calc(100% - 16px); 
             padding: 12px;
             margin-top: 10px;
-            margin-bottom: 20px; /* More space between fields */
+            margin-bottom: 20px; 
             border: 1px solid #ccc;
-            border-radius: 5px; /* Slightly less rounded for a modern look */
-            font-size: 16px; /* Larger font size for better readability */
+            border-radius: 5px;
+            font-size: 16px; 
         }
         button {
-            background-color: #007BFF; /* Bootstrap primary blue */
+            background-color: #007BFF; 
             color: white;
             border: none;
             padding: 12px 0;
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
-            font-size: 18px; /* Larger font for button */
-            letter-spacing: 1px; /* Spacing between letters */
+            font-size: 18px; 
+            letter-spacing: 1px; 
         }
         button:hover {
-            background-color: #0056b3; /* Darker blue for hover effect */
+            background-color: #0056b3; 
         }
         .login-link {
             display: block;
             text-align: center;
             margin-top: 20px;
-            color: #007BFF; /* Blue color to match the button */
-            text-decoration: none; /* Removes underline */
+            color: #007BFF;
+            text-decoration: none;
         }
         .login-link:hover {
-            color: #0056b3; /* Darker blue for hover effect */
-            text-decoration: underline; /* Optional: add underline on hover for visual feedback */
+            color: #0056b3; 
+            text-decoration: underline; 
         }
     </style>
 </head>
@@ -76,6 +76,7 @@
         <div>
             <input type="email" name="{{ form.email.name }}" placeholder="Email Address">
         </div>
+        <strong>Include Uppercase, Lowercase, Digits and Special Character in the password</strong>
         <div>
             <input type="password" name="{{ form.password1.name }}" placeholder="Password">
         </div>
