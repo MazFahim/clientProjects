@@ -5,14 +5,6 @@ from django.template import loader
 from .models import *
 from .forms import CustomerMessageForm
 from django.db import transaction
-from django.contrib import messages
-
-def movies(request, id):
-    template = loader.get_template('first.html')
-    context = {
-        'movie' : movie
-    }
-    return HttpResponse(template.render(context, request))
 
 def home(request):
     movies = Movie.objects.all().values()
@@ -35,44 +27,6 @@ def showtime(request):
     return HttpResponse(template.render(context, request))
 
 
-@login_required
-def tickets(request, id):
-    movie = Movie.objects.get(pk=id)
-    if request.method == 'POST':
-        showtime_mapper_id = request.POST.get('showtime_mapper')
-        seat_ids = request.POST.getlist('seats')
-        showtime_mapper = ShowtimeMapper.objects.get(id=showtime_mapper_id)
-
-        with transaction.atomic():
-            if Booking.objects.filter(bookingTime=showtime_mapper, seat__in=seat_ids, is_booked=True).exists():
-                return HttpResponse("One or more seats are already booked.", status=400)
-
-            if Booking.objects.filter(bookingTime=showtime_mapper, seat__in=seat_ids, user=request.user).exists():
-                return HttpResponse("You have already booked one or more of the selected seats for this showtime.", status=400)
-
-            booked_seats = []
-            for seat_id in seat_ids:
-                seat = Seat.objects.get(id=seat_id)
-                Booking.objects.create(
-                    seat=seat,
-                    bookingTime=showtime_mapper,
-                    user=request.user,
-                    is_booked=True
-                )
-                booked_seats.append(seat_id)
-
-            return redirect('/') 
-    showtimes = ShowtimeMapper.objects.all().select_related('movie')
-    seats = Seat.objects.all()  
-    context = {
-        'movie': movie,
-        'showtimes': showtimes,
-        'seats': seats,
-        'rows': 'ABCDE',
-        'numbers': range(1, 9)
-    }
-    return render(request, 'tickets.html', context)
-
 def showtimeMapper(request):
     showtimes = ShowtimeMapper.objects.all().values()
     movies = Movie.objects.all().values()
@@ -90,3 +44,62 @@ def contact(request):
             form.save()
         return redirect(home)
     return render(request, 'contact.html', {'form':CustomerMessageForm})
+
+
+@login_required
+def tickets(request, id, date, slotChoice):
+    movie = Movie.objects.get(pk=id)
+    seats = Seat.objects.all()
+    showtime_mapper = ShowtimeMapper.objects.get(pk=id)
+    booked_seats = Booking.objects.filter(bookingTime=showtime_mapper).values_list('seat__id', flat=True)
+
+    template = loader.get_template('tickets.html')
+    context = {
+        'showtime_mapper_id' : id,
+        'movie' : movie,
+        'rows': 'ABCDE',
+        'seats' : seats,
+        'date' : date,
+        'slotchoice' : slotChoice,
+        'booked_seats': booked_seats
+    }
+    return HttpResponse(template.render(context, request))
+
+@login_required
+def book_seats(request):
+    if request.method == 'POST':
+        seat_ids = request.POST.getlist('seats')
+        showtime_mapper_id = request.POST.get('showtime_mapper_id')
+        showtime_mapper = ShowtimeMapper.objects.get(id=showtime_mapper_id)
+        request.session['booked_seats'] = seat_ids
+
+        with transaction.atomic():
+            if Booking.objects.filter(bookingTime=showtime_mapper, seat__in=seat_ids).exists():
+                return HttpResponse("One or more seats are already booked.", status=400)
+            
+            for seat_id in seat_ids:
+                seat = Seat.objects.get(id=seat_id)
+                Booking.objects.create(
+                    seat=seat,
+                    bookingTime=showtime_mapper,
+                    user=request.user,
+                    is_booked=True
+                )
+
+        request.session['showtime_mapper_id'] = showtime_mapper_id
+        return redirect('checkout')
+    
+def checkout(request):
+    seat_ids = request.session.get('booked_seats', [])
+    showtime_mapper_id = request.session.get('showtime_mapper_id')
+    seats = Seat.objects.filter(id__in=seat_ids)
+    # showtime_mapper = ShowtimeMapper.objects.get(id=showtime_mapper_id)
+    total_price = sum(150 for seat in seats)
+    
+    if request.method == 'POST':
+        request.session.pop('booked_seats', None)
+        request.session.pop('showtime_mapper_id', None)
+        return render(request, 'confirmation.html', {'seats': seats, 'total_price': total_price})
+
+    return render(request, 'checkout.html', {'seats': seats, 'total_price': total_price})
+    # return render(request, 'checkout.html', {'seats': seats, 'showtime_mapper': showtime_mapper, 'total_price': total_price})
