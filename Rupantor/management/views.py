@@ -120,3 +120,14 @@ def confirm_shipment(request):
         return HttpResponse('order_confirmed')
     else:
         return redirect('cart')
+    
+
+def search(request):
+    if request.method == 'GET':
+        query = request.GET.get('q')
+        if query:
+            search_result = Wears.objects.filter(productName__icontains=query)
+        else:
+            search_result = None
+        return render(request, 'search_results.html', {'search_results': search_result})
+    return render(request, 'search_results.html', {'search_results': None})

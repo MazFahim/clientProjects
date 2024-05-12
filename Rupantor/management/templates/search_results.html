@@ -1,9 +1,11 @@
+<!-- search_results.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winter Wear</title>
+    <title>Search Results</title>
     <style>
         .category-title{
             font-size: xx-large;
@@ -50,25 +52,20 @@
 <body>
     
     {% include 'header.html' %}
-    
-    <h1 class="category-title">Winter Wear:</h1>
 
+    <h1 class="category-title">Search Results:</h1>
+ 
     <div class="card-container">
-        {% for product in wears %}
-            {% if product.category == "WinterWear" %}
-            <a href="{% url 'product_detail' product.productId %}" style="text-decoration: none; color: inherit;">
+        {% for product in search_results %}
+            <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
                 <div class="card">
-                    <p><strong>{{ product.productName }}</strong></p>
+                <p><strong>{{ product.productName }}</strong></p>
                     <img src="/media/{{ product.productImage }}" alt="no image">
                     <p>Price: ৳{{ product.productPrice }}</p>
-                    
                 </div>
-                </a>
-            {% endif %}
+            </a>
         {% endfor %}
     </div>
-
-    {% include 'footer.html' %}
 
 </body>
 </html>

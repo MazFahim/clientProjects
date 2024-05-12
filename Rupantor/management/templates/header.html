@@ -20,20 +20,21 @@
         }
         li{
             width: auto;
-            margin-right: 30px;
+            margin-right: 50px;
+            margin-top: 8px;
         }
         li:last-child {
             margin-right: 0; 
         }
         li:first-child {
-            margin-right: 600px; 
+            margin-right: 250px; 
         }
         li a {
             display: block;
             color: white;
             text-align: center;
             padding: 14px 20px;
-            text-decoration: dashed;
+            text-decoration: None;
         }
         li a:hover {
             background-color: white;
@@ -49,6 +50,29 @@
         .home-link:hover {
             background-color: white;
         }
+        .search-container {
+            display: flex;
+            margin-left: auto;
+            align-items: center;
+            padding-right: 20px;
+        }
+        .search-box {
+            padding: 10px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+        }
+        .search-button {
+            background-color: #fff;
+            color: #B804B5;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .search-button:hover {
+            background-color: white;
+            color: #B804B5;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +80,14 @@
     <nav>
         <ul>
             <li><a href="/" class="home-link">Rupantor</a></li>
+            <li>
+                <div class="search-container">
+                    <form action="{% url 'search' %}" method="get">
+                        <input type="text" placeholder="Search.." class="search-box" name="q">
+                        <button type="submit" class="search-button">Search</button>
+                    </form>
+                </div>
+            </li>
             <li><a href="/summerwear/">Summer Wear</a></li>
             <li><a href="/winterwear/">Winter Wear</a></li>
             <li><a href="/cart/">Cart</a></li>
