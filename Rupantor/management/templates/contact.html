@@ -39,7 +39,7 @@
     </style>
 </head>
 <body>
-    {% include 'headerNavbar.html' %}
+    {% include 'header.html' %}
 
     <form method="post" action="{% url 'contact' %}" enctype="multipart/form-data">
         {% csrf_token %}

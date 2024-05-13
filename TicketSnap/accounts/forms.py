@@ -3,6 +3,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from django.contrib.auth.forms import PasswordResetForm
+
 class RegisterForm(UserCreationForm):
     email = forms.EmailField()
 
@@ -27,3 +29,7 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput,
         error_messages={'required': ''} 
     )
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    pass

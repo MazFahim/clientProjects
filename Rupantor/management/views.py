@@ -111,13 +111,22 @@ def confirm_shipment(request):
         cart_items = Cart.objects.filter(user=request.user)
         payment_method = request.POST.get('payment_method')
 
-        # Create Shipping entries from Cart items
+        customer_name = request.POST.get('customer_name')
+        customer_address = request.POST.get('customer_address')
+        customer_phone = request.POST.get('customer_phone')
+        customer_email = request.POST.get('customer_email')
+
         for item in cart_items:
             Shipping.objects.create(
                 user=request.user,
                 product=item.product,
                 quantity=item.quantity,
-                payment_method=payment_method
+                payment_method=payment_method,
+
+                customer_name=customer_name,
+                customer_address=customer_address,
+                customer_phone=customer_phone,
+                customer_email=customer_email
             )
 
         # Clear the Cart after transferring to Shipping
