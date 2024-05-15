@@ -21,6 +21,8 @@ class Wears(models.Model):
     def __str__(self):
         return f"{self.productName} - {self.category}"
 
+
+
 class Cart(models.Model):
     product = models.ForeignKey(Wears, on_delete=models.CASCADE, null= True)
     quantity = models.IntegerField(default=1)
@@ -37,6 +39,8 @@ class Cart(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.product.productName} - {self.quantity}"
 
+
+
 class CustomerMessage(models.Model):
     msgId = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -47,6 +51,8 @@ class CustomerMessage(models.Model):
     def __str__(self):
         return f"{self.name} - {self.subject}"
 
+
+
 class Featured(models.Model):
     message = models.CharField(max_length=50, default='Featured')
     product = models.ForeignKey(Wears, related_name='featured', on_delete=models.CASCADE, null=True)
@@ -54,13 +60,16 @@ class Featured(models.Model):
     def __str__(self):
         return f"{self.message}"
 
+
+
 class Offer(models.Model):
     Discount = models.CharField(max_length=50, default='Discounts')
     product = models.ForeignKey(Wears, related_name='discounted', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f"Discounts: {self.Discount} - {self.product}"
-    
+
+
 
 class Shipping(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='shippings')
@@ -74,3 +83,22 @@ class Shipping(models.Model):
     customer_email = models.EmailField(null=True, blank=True)
     def __str__(self):
         return f"{self.user.username} - {self.product.productName} - {self.quantity} - {self.payment_method}"
+    
+
+
+class UserReview(models.Model):
+    ratingChoices =  [
+        (1, '1 Star'),
+        (2, '2 Stars'),
+        (3, '3 Stars'),
+        (4, '4 Stars'),
+        (5, '5 Stars'),
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='review')
+    wear = models.ForeignKey('Wears', on_delete=models.CASCADE)
+    message = models.TextField()
+    rating = models.IntegerField(choices=ratingChoices)
+
+    def __str__(self):
+        return f"Rating: {self.get_rating_display()} - {self.message[:50]}..."
+

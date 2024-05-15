@@ -5,6 +5,7 @@ from django.template import loader
 from .forms import CustomerMessageForm
 from .models import *
 
+
 def test(request):
     cart = Cart.objects.all().values()
     template = loader.get_template('test.html')
@@ -13,6 +14,7 @@ def test(request):
     }
     # return HttpResponse(template.render(context, request))
     return HttpResponse('Hello')
+
 
 
 def home(request):
@@ -30,6 +32,7 @@ def home(request):
     return HttpResponse(template.render(context, request))
 
 
+
 def summerwear(request):
     wears = Wears.objects.all().values()
 
@@ -38,6 +41,7 @@ def summerwear(request):
     }
     template = loader.get_template('summerwear.html')
     return HttpResponse(template.render(context, request))
+
 
 
 def winterwear(request):
@@ -50,15 +54,27 @@ def winterwear(request):
     return HttpResponse(template.render(context, request))
 
 
+
 def product_detail(request, product_id):
     product = get_object_or_404(Wears, productId=product_id)
-    return render(request, 'product_detail.html', {'product': product})
+    reviews = UserReview.objects.filter(wear=product)
+
+    context = {
+        'product': product,
+        'reviews': reviews
+    }
+
+    template = loader.get_template('product_detail.html')
+    return HttpResponse(template.render(context, request))
+
 
 
 def testProduct(request):
     #product = get_object_or_404(Wears, productId=product_id)
     template = loader.get_template('product_detail.html')
     return HttpResponse(template.render())
+
+
 
 @login_required
 def add_to_cart(request, product_id):
@@ -74,6 +90,8 @@ def add_to_cart(request, product_id):
         cart_item.save()
     return redirect('cart')
 
+
+
 def cart(request):
     template = loader.get_template('cart.html')
 
@@ -88,12 +106,15 @@ def cart(request):
     return HttpResponse(template.render(context, request))
 
 
+
 @login_required
 def remove_from_cart(request, item_id):
     cart_item = get_object_or_404(Cart, id=item_id, user=request.user)  # Ensures the item belongs to the user
     if request.method == 'POST':
         cart_item.delete()
     return redirect('cart')
+
+
 
 def contact(request):
     if request.POST:
@@ -137,6 +158,7 @@ def confirm_shipment(request):
         return redirect('cart')
     
 
+
 def search(request):
     if request.method == 'GET':
         query = request.GET.get('q')
@@ -146,3 +168,22 @@ def search(request):
             search_result = None
         return render(request, 'search_results.html', {'search_results': search_result})
     return render(request, 'search_results.html', {'search_results': None})
+
+
+@login_required
+def add_review(request, product_id):
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        message = request.POST.get('message')
+        user = request.user
+        product = get_object_or_404(Wears, productId=product_id)
+
+        review = UserReview.objects.create(
+            user=user,
+            wear=product,
+            message=message,
+            rating=rating
+        )
+        return redirect('product_detail', product_id=product_id)
+    
+    return HttpResponse("Method Not Allowed", status=405)
