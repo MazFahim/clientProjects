@@ -10,4 +10,6 @@ urlpatterns = [
     path('showtimemapper/', views.showtimeMapper, name='showtimemapper'),
     path('book_seats/', views.book_seats, name='book_seats'),
     path('checkout/', views.checkout, name='checkout'),
+    path('movie/<int:movie_id>/', views.movie_detail, name='movie_detail'),
+    path('movie/<int:movie_id>/add_review/', views.add_review, name='add_review'),
 ]

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }}</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;  /* Flexbox layout */
+            justify-content: space-between; /* Space between the main sections */
+            align-items: flex-start; /* Align items at the start of the flex container */
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .product-details, .cart-details {
+            flex: 1;  /* Both sections take equal width */
+            padding: 10px;
+        }
+        .product-image {
+            width: 100%;  /* Make image responsive within its container */
+            max-width: 450px;  /* Limit maximum width to prevent overly large images */
+            height: auto;
+        }
+        .details p {
+            font-size: 18px;
+            color: #333;
+        }
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: blue;
+        }
+        .cart-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px; 
+        }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .quantity-control button, .quantity-control input {
+            font-size: 16px;
+            padding: 5px 10px;
+            margin: 0 5px;
+        }
+        .quantity-control input {
+            text-align: center;
+            max-width: 50px; /* Keeps the input box from becoming too large */
+        }
+        #add-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50; /* Example color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+{% include 'headerNavbar.html' %}
+
+    
+<div class="container">
+    <div class="product-details">
+        <h1>{{ movie.title }}</h1>
+        <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="product-image">
+        <div class="details">
+            <p><strong>Casts:</strong> {{ movie.actors }}</p>
+            <p><strong>Director:</strong> {{ movie.director }}</p>
+            <p><strong>Genre:</strong> {{ movie.genre }}</p>
+            <p><strong>Language:</strong> {{ movie.language }}</p>
+            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+            <p><strong>Status:</strong> {{ movie.status }}</p>
+            <p><strong>Duration:</strong> {{ movie.duration }}</p>
+            <p><strong>Trailer:</strong> {{ movie.trailer_url }}</p>
+        </div>
+    </div>
+    
+</div>
+
+<div>
+    <h1>Movie Reviews</h1>
+    <h2>Add your review</h2>
+    <form action="{% url 'add_review' movie_id=movie.movieId %}" method="post">
+        {% csrf_token %}
+        <label for="rating">Rating</label>
+        <select name="rating" id="rating">
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+        </select><br>
+        <label for="message">Your Review:</label><br>
+        <textarea name="message" id="message" rows="4" cols="50"></textarea><br>
+        <input type="submit" value="Submit Review">
+    </form>
+
+    <h2>Product Reviews</h2>
+    {% if reviews %}
+     <ul>
+        {% for review in reviews %}
+            <li>
+                <strong>{{ review.user.username }}</strong> - Rating: {{ review.rating }} <br>
+                {{ review.message }}
+            </li>
+        {% endfor %}
+     </ul>
+    {% endif %}
+</div>
+</body>
+</html>

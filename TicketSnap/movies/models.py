@@ -85,3 +85,21 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking for {self.bookingTime}-{self.user}"
+
+
+
+class UserReview(models.Model):
+    ratingChoices =  [
+        (1, '1 Star'),
+        (2, '2 Stars'),
+        (3, '3 Stars'),
+        (4, '4 Stars'),
+        (5, '5 Stars'),
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='review')
+    movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
+    message = models.TextField()
+    rating = models.IntegerField(choices=ratingChoices)
+
+    def __str__(self):
+        return f"Rating: {self.get_rating_display()} - {self.message[:50]}..."

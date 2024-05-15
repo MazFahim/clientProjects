@@ -40,7 +40,7 @@
             font-size: 20px;
             margin-bottom: 10px;
         }
-        .card p {
+        .card p, h3 {
             font-size: 16px;
             color: #555;
         }
@@ -51,6 +51,11 @@
             border-radius: 6px 6px 0 0; /* Add border radius only to the top corners */
             margin-bottom: 10px;/* Add space between the image and other content */
         }
+        .card a {
+            text-decoration: none; /* Remove underline */
+            color: 555; /* Set text color to black */
+        }
+
         @keyframes fade {
             from {opacity: .4} 
             to {opacity: 1}
@@ -70,11 +75,13 @@
         {% for movie in movies %}
             {% if movie.status == "Now Playing" %}
                 <div class="card">
-                    <a href="{{ movie.trailer_url }}"><img src="/media/media/{{ movie.poster }}" alt="{{ movie.title }}"></a>
-                    <h3>{{ movie.title }}</h3>{{ movie.language }}
-                    <p>Released: {{ movie.release_date }}</p>
-                    <p>Casts: {{ movie.actors }}</p>
-                    <p>Genre: {{ movie.genre }}</p>
+                    <a href="{% url 'movie_detail' movie_id=movie.movieId %}">
+                        <img src="/media/media/{{ movie.poster }}" alt="{{ movie.title }}">
+                        <h3>{{ movie.title }}</h3>
+                        <p>{{ movie.language }}</p>
+                        <p>Casts: {{ movie.actors }}</p>
+                        <p>Genre: {{ movie.genre }}</p>
+                    </a>
                 </div>
             {% endif %}
         {% endfor %}
@@ -86,11 +93,12 @@
         {% for movie in movies %}
             {% if movie.status == "Upcoming" %}
                 <div class="card">
-                    <a href="{{ movie.trailer_url }}"><img src="/media/media/{{ movie.poster }}" alt="{{ movie.title }}"></a>
-                    <h3>{{ movie.title }}</h3>{{ movie.language }}
-                    <p>Released: {{ movie.release_date }}</p>
-                    <p>Casts: {{ movie.actors }}</p>
-                    <p>Genre: {{ movie.genre }}</p>
+                    <a href="{% url 'movie_detail' movie_id=movie.movieId %}">
+                        <img src="/media/media/{{ movie.poster }}" alt="{{ movie.title }}">
+                        <h3>{{ movie.title }}</h3>{{ movie.language }}
+                        <p>Casts: {{ movie.actors }}</p>
+                        <p>Genre: {{ movie.genre }}</p>
+                    </a>
                 </div>
             {% endif %}
         {% endfor %}

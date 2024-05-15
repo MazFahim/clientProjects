@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
@@ -102,4 +102,35 @@ def checkout(request):
         return render(request, 'confirmation.html', {'seats': seats, 'total_price': total_price})
 
     return render(request, 'checkout.html', {'seats': seats, 'total_price': total_price})
-    # return render(request, 'checkout.html', {'seats': seats, 'showtime_mapper': showtime_mapper, 'total_price': total_price})
+
+
+
+def movie_detail(request, movie_id):
+    movie = get_object_or_404(Movie, movieId=movie_id)
+    reviews = UserReview.objects.filter(movie=movie)
+
+    context = {
+        'movie' : movie,
+        'reviews' : reviews
+    }
+    
+    template = loader.get_template('movieDetails.html')
+    return HttpResponse(template.render(context, request))
+
+
+def add_review(request, movie_id):
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        message = request.POST.get('message')
+        user = request.user
+        product = get_object_or_404(Movie, movieId=movie_id)
+
+        review = UserReview.objects.create(
+            user=user,
+            movie=product,
+            message=message,
+            rating=rating
+        )
+        return redirect('movieDetails', product_id=movie_id)
+    
+    return HttpResponse("Method Not Allowed", status=405)
