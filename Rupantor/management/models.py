@@ -77,7 +77,8 @@ class Offer(models.Model):
 
 
 class Shipping(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='shippings')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='shippings', null=True, blank=True)
+    session_key = models.CharField(max_length=40, null=True, blank=True)
     product = models.ForeignKey('Wears', on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     payment_method = models.CharField(max_length=100)

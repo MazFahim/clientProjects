@@ -114,16 +114,18 @@ def cart(request):
 
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
-        #shipped_items = Shipping.objects.filter(user=request.user)
+        shipped_items = Shipping.objects.filter(user=request.user)
     else:
         session_key = request.session.session_key
         cart_items = Cart.objects.filter(session_key=session_key)
+        shipped_items = Shipping.objects.filter(session_key=session_key)
+
 
     for item in cart_items:
         item.subtotal = item.quantity * item.product.productPrice
     context = {
         'cart_items': cart_items,
-        # 'shipped_items': shipped_items
+        'shipped_items': shipped_items
     }
     return HttpResponse(template.render(context, request))
 
@@ -156,7 +158,12 @@ def contact(request):
 # for this action, login was required
 def confirm_shipment(request):
     if request.method == 'POST':
-        cart_items = Cart.objects.filter(user=request.user)
+        if request.user.is_authenticated:
+            cart_items = Cart.objects.filter(user=request.user)
+        else:
+            session_key = request.session.session_key
+            cart_items = Cart.objects.filter(session_key=session_key)
+
         payment_method = request.POST.get('payment_method')
 
         customer_name = request.POST.get('customer_name')
@@ -164,19 +171,33 @@ def confirm_shipment(request):
         customer_phone = request.POST.get('customer_phone')
         customer_email = request.POST.get('customer_email')
 
-        for item in cart_items:
-            Shipping.objects.create(
-                user=request.user,
-                product=item.product,
-                quantity=item.quantity,
-                payment_method=payment_method,
+        if request.user.is_authenticated:
+            for item in cart_items:
+                Shipping.objects.create(
+                    user=request.user,
+                    product=item.product,
+                    quantity=item.quantity,
+                    payment_method=payment_method,
 
-                customer_name=customer_name,
-                customer_address=customer_address,
-                customer_phone=customer_phone,
-                customer_email=customer_email
-            )
+                    customer_name=customer_name,
+                    customer_address=customer_address,
+                    customer_phone=customer_phone,
+                    customer_email=customer_email
+                )
+        else:
+            session_key = request.session.session_key
+            for item in cart_items:
+                Shipping.objects.create(
+                    session_key=session_key,
+                    product=item.product,
+                    quantity=item.quantity,
+                    payment_method=payment_method,
 
+                    customer_name=customer_name,
+                    customer_address=customer_address,
+                    customer_phone=customer_phone,
+                    customer_email=customer_email
+                )
         # Clear the Cart after transferring to Shipping
         cart_items.delete()
 
