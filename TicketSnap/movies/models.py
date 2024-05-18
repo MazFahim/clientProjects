@@ -78,8 +78,10 @@ class Booking(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='cart',
-        null=True
+        null=True,
+        blank=True
     )
+    session_key = models.CharField(max_length=40, null=True, blank=True)
     class Meta:
         unique_together = ('seat', 'bookingTime')
 

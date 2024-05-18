@@ -78,13 +78,13 @@
                             07:00 PM
                         {% endif %}
                     </div>
-                    {% if request.user.is_authenticated  %}
-                        {% with date_str=Schedule.date|date:"Y-m-d" %}
-                        <button class="details-button" onclick="location.href='/movies/{{ Schedule.id }}/{{ date_str }}/{{ Schedule.slotChoice }}'">Buy Tickets</button>
-                        {% endwith %}                        
+                    {% with date_str=Schedule.date|date:"Y-m-d" %}
+                    <button class="details-button" onclick="location.href='/movies/{{ Schedule.id }}/{{ date_str }}/{{ Schedule.slotChoice }}'">Buy Tickets</button>
+                    {% endwith %}                        
+                    <!-- {% if request.user.is_authenticated  %}
                     {% else %}
                         <button class="details-button" onclick="location.href='/login/'">Buy Tickets</button>
-                    {% endif %}
+                    {% endif %} -->
                 </div>
             {% endif %}
         {% endfor %}
