@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.template import loader
 from .forms import CustomerMessageForm
 from .models import *
+from django.views.decorators.http import require_POST
+from django.contrib.sessions.models import Session
 
 
 def test(request):
@@ -76,18 +78,33 @@ def testProduct(request):
 
 
 
-@login_required
+# for this action, login was required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Wears, productId=product_id)
     quantity = int(request.POST.get('quantity', 1))
-    cart_item, created = Cart.objects.get_or_create(
-        user=request.user,
-        product=product,
-        defaults={'quantity': quantity}
-    )
+
+    if request.user.is_authenticated:
+        cart_item, created = Cart.objects.get_or_create(
+            user=request.user,
+            product=product
+            )
+            
+    else:
+        session_key = request.session.session_key
+        if not session_key:
+            request.session.create()
+            session_key = request.session.session_key
+        cart_item, created = Cart.objects.get_or_create(
+            session_key=session_key,
+            product=product
+        )
+        # defaults={'quantity': quantity}
     if not created:
         cart_item.quantity += quantity
-        cart_item.save()
+    else:
+        cart_item.quantity = quantity
+
+    cart_item.save()
     return redirect('cart')
 
 
@@ -95,21 +112,31 @@ def add_to_cart(request, product_id):
 def cart(request):
     template = loader.get_template('cart.html')
 
-    cart_items = Cart.objects.filter(user=request.user)
-    shipped_items = Shipping.objects.filter(user=request.user)
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user)
+        #shipped_items = Shipping.objects.filter(user=request.user)
+    else:
+        session_key = request.session.session_key
+        cart_items = Cart.objects.filter(session_key=session_key)
+
     for item in cart_items:
         item.subtotal = item.quantity * item.product.productPrice
     context = {
         'cart_items': cart_items,
-        'shipped_items': shipped_items
+        # 'shipped_items': shipped_items
     }
     return HttpResponse(template.render(context, request))
 
 
 
-@login_required
+# for this action, login was required
 def remove_from_cart(request, item_id):
-    cart_item = get_object_or_404(Cart, id=item_id, user=request.user)  # Ensures the item belongs to the user
+    if request.user.is_authenticated:
+        cart_item = get_object_or_404(Cart, id=item_id, user=request.user)  
+    else:
+        session_key = request.session.session_key
+        cart_item = get_object_or_404(Cart, id=item_id, session_key=session_key)  
+
     if request.method == 'POST':
         cart_item.delete()
     return redirect('cart')
@@ -126,7 +153,7 @@ def contact(request):
     
 
 
-@login_required
+# for this action, login was required
 def confirm_shipment(request):
     if request.method == 'POST':
         cart_items = Cart.objects.filter(user=request.user)
