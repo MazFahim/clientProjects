@@ -1,13 +1,28 @@
 from django.db import models
 from django.conf import settings
 
+
+
+class  Category(models.Model):
+    CATEGORY_CHOICES = [
+        ('SummerWear', 'Summerwear'),
+        ('WinterWear', 'Winterwear'),
+        ('Western', 'Western'),
+        ('Cotton', 'Cotton')
+    ]
+    categoryName = models.CharField(max_length=100, choices=CATEGORY_CHOICES, unique=True)
+
+    def __str__(self):
+        return self.categoryName
+
 class Wears(models.Model):
-    categoryChoice = [
+    summerOrWinterChoices  = [
         ('SummerWear', 'Summerwear'),
         ('WinterWear', 'Winterwear')
     ]
     productId = models.AutoField(primary_key=True)
-    category = models.CharField(max_length=20, choices=categoryChoice)
+    summerOrWinter  = models.CharField(max_length=20, choices=summerOrWinterChoices )
+    categories = models.ManyToManyField(Category)
     productName = models.CharField(max_length=100)
     productColor = models.CharField(max_length=50, null=True)
     productBody = models.CharField(max_length=30, null=True)
@@ -19,7 +34,7 @@ class Wears(models.Model):
     productImage = models.ImageField(blank=True)
 
     def __str__(self):
-        return f"{self.productName} - {self.category}"
+        return f"{self.productName} - {self.summerOrWinter}"
 
 
 
