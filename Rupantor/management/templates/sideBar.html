@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>...</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .sideNav{
+            height: calc(100% - 50px);
+            width: 250px;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            background-color: #B804B5;
+            overflow-x: hidden;
+            padding-top: 20px;
+            border-right: 2px solid #9B0395;
+        }
+        .sideNav a{
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+        .sidenav a:hover{
+            color: #B804B5;
+            background-color: white;
+        }
+        .dropdown-btn{
+            padding: 10px 15px;
+            font-size: 18px;
+            color: white;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+        }
+        .dropdown-btn:hover {
+            color: #111;
+        }
+        .dropdown-container {
+            display: none;
+            background-color: #B804B5;
+            padding-left: 15px;
+        }
+        .dropdown-container a {
+            padding: 10px 0;
+            font-size: 16px;
+            color: #b8b8b8;
+        }
+        .dropdown-container label {
+            display: block;
+            padding: 5px 0; 
+            color: white;
+        }
+        .dropdown-container input[type="checkbox"] {
+            transform: scale(1.5);
+            margin-right: 10px;
+            appearance: none; 
+            width: 20px; 
+            height: 20px; 
+            background-color: #fff; 
+            border: 2px solid #333; 
+            border-radius: 3px; 
+            cursor: pointer; 
+            position: relative;
+        }
+        .dropdown-container input[type="checkbox"]:checked::before {
+            content: "\2714"; 
+            color: #fff; 
+            font-size: 16px; 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #B804B5; 
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 3px; 
+        }
+        .dropdown-container input[type="range"] {
+            width: 100%;
+            margin: 5px 0;
+        }
+        #price-values {
+            color: white;
+            margin: 5px 0;
+        }
+        .apply-button {
+            display: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            color: white;
+            background-color: #111;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sideNav">
+        <a href="#"><strong>Filters</strong></a>
+        <button class="dropdown-btn"> Categories
+            &#9662;
+        </button>
+        <div class="dropdown-container">
+            <label><input type="checkbox" name="Summer_Wear" value="Summer_Wear"> Summer Wear</label>
+            <label><input type="checkbox" name="Winter_Wear" value="Winter_Wear"> Winter Wear</label>
+            <label><input type="checkbox" name="Western" value="Western"> Western</label>
+            <label><input type="checkbox" name="Cotton" value="Cotton"> Cotton</label>
+        </div>
+        <button class="dropdown-btn"> Offers
+            &#9662;
+        </button>
+        <div class="dropdown-container">
+            <a href="#link4">Link 4</a>
+            <a href="#link5">Link 5</a>
+            <a href="#link6">Link 6</a>
+        </div>
+        <button class="dropdown-btn"> Price Range
+            &#9662;
+        </button>
+        <div class="dropdown-container">
+            <!-- <label for="price-range">Price Range:</label> -->
+            <!-- <input type="range" id="min-price" name="min-price" min="0" max="1000" value="0"> -->
+            <input type="range" id="max-price" name="max-price" min="0" max="1000" value="0">
+            <div id="price-values">0 - 5000</div>
+        </div>
+        <button class="apply-button">Apply Filters</button>
+    </div>
+    <script>
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var applyButton = document.querySelector(".apply-button")
+        var i;
+
+        for(i=0; i <dropdown.length; i++){
+            dropdown[i].addEventListener("click", function(){
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                    applyButton.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                    applyButton.style.display = "block";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
