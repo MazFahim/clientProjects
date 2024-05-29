@@ -235,3 +235,26 @@ def add_review(request, product_id):
         return redirect('product_detail', product_id=product_id)
     
     return HttpResponse("Method Not Allowed", status=405)
+
+
+def filtered_elements(request):
+    template = loader.get_template('filtered_elements.html')
+
+    if request.method == 'GET':
+        categories = request.GET.getlist('categories')
+        max_price = request.GET.get('max-price')
+
+        wears = Wears.objects.all()
+        categorized = Wears.objects.all()
+
+        if max_price:
+            wears = wears.filter(productPrice__lte=float(max_price))
+
+        if categories:
+            categorized = wears.filter(categories__categoryName__in=categories).distinct()
+
+        context = {
+            'items': wears,
+            'categorized': categorized
+        }
+        return HttpResponse(template.render(context, request))

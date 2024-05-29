@@ -55,7 +55,7 @@
 
     <div class="card-container">
         {% for product in wears %}
-            {% if product.category == "WinterWear" %}
+            {% if product.summerOrWinter == "WinterWear" %}
             <a href="{% url 'product_detail' product.productId %}" style="text-decoration: none; color: inherit;">
                 <div class="card">
                     <p><strong>{{ product.productName }}</strong></p>
@@ -68,7 +68,7 @@
         {% endfor %}
     </div>
 
-    {% include 'footer.html' %}
+    <!-- {% include 'footer.html' %} -->
 
 </body>
 </html>

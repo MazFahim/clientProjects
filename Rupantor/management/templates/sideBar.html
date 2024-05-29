@@ -114,33 +114,35 @@
 <body>
     <div class="sideNav">
         <a href="#"><strong>Filters</strong></a>
-        <button class="dropdown-btn"> Categories
-            &#9662;
-        </button>
-        <div class="dropdown-container">
-            <label><input type="checkbox" name="Summer_Wear" value="Summer_Wear"> Summer Wear</label>
-            <label><input type="checkbox" name="Winter_Wear" value="Winter_Wear"> Winter Wear</label>
-            <label><input type="checkbox" name="Western" value="Western"> Western</label>
-            <label><input type="checkbox" name="Cotton" value="Cotton"> Cotton</label>
-        </div>
-        <button class="dropdown-btn"> Offers
-            &#9662;
-        </button>
-        <div class="dropdown-container">
-            <a href="#link4">Link 4</a>
-            <a href="#link5">Link 5</a>
-            <a href="#link6">Link 6</a>
-        </div>
-        <button class="dropdown-btn"> Price Range
-            &#9662;
-        </button>
-        <div class="dropdown-container">
-            <!-- <label for="price-range">Price Range:</label> -->
-            <!-- <input type="range" id="min-price" name="min-price" min="0" max="1000" value="0"> -->
-            <input type="range" id="max-price" name="max-price" min="0" max="1000" value="0">
-            <div id="price-values">0 - 5000</div>
-        </div>
-        <button class="apply-button">Apply Filters</button>
+        <form id="filter-form" action="{% url 'filtered_elements' %}" method="get">
+            <button type="button" class="dropdown-btn"> Categories
+                &#9662;
+            </button>
+            <div class="dropdown-container">
+                <label><input type="checkbox" name="categories" value="SummerWear"> Summer Wear</label>
+                <label><input type="checkbox" name="categories" value="WinterWear"> Winter Wear</label>
+                <label><input type="checkbox" name="categories" value="Western"> Western</label>
+                <label><input type="checkbox" name="categories" value="Cotton"> Cotton</label>
+            </div>
+            <!-- <button type="button" class="dropdown-btn"> Offers
+                &#9662;
+            </button>
+            <div class="dropdown-container">
+                <a href="#link4">Link 4</a>
+                <a href="#link5">Link 5</a>
+                <a href="#link6">Link 6</a>
+            </div> -->
+            <button type="button" class="dropdown-btn"> Price Range
+                &#9662;
+            </button>
+            <div class="dropdown-container">
+                <!-- <label for="price-range">Price Range:</label> -->
+                <!-- <input type="range" id="min-price" name="min-price" min="0" max="1000" value="0"> -->
+                <input type="range" id="max-price" name="max-price" min="0" max="1000" value="1000">
+                <div id="price-values">0 - 5000</div>
+            </div>
+            <button class="apply-button">Apply Filters</button>
+        </form>
     </div>
     <script>
         var dropdown = document.getElementsByClassName("dropdown-btn");
