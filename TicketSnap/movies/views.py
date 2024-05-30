@@ -157,3 +157,30 @@ def add_review(request, movie_id):
         return redirect('movieDetails', product_id=movie_id)
     
     return HttpResponse("Method Not Allowed", status=405)
+
+
+def cart(request):
+    template = loader.get_template('cart.html')
+
+    if request.user.is_authenticated:
+        bookedTickets = Booking.objects.filter(user=request.user)
+    else:
+        session_key = request.session.session_key
+        bookedTickets = Booking.objects.filter(session_key=session_key)
+
+    context = {
+        'bookedTickets' : bookedTickets
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def remove_from_cart(request, item_id):
+    if request.user.is_authenticated:
+        booked_seat = get_object_or_404(Booking, id=item_id, user=request.user)
+    else:
+        session_key = request.session.session_key
+        booked_seat = get_object_or_404(Booking, id=item_id, session_key=session_key)  
+    
+    if request.method == 'POST':
+        booked_seat.delete()
+    return redirect('cart')

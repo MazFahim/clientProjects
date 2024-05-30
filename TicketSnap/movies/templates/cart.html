@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .cart-container{
+            width: 90%;
+            margin: auto;
+        }
+        .remove-btn {
+            padding: 8px 15px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .remove-btn:hover, .ship-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    {% include 'headerNavbar.html' %}
+    
+    <div class="cart-container">
+        <h2>Your Booked Tickets</h2>
+        
+        {% if bookedTickets %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Movie Name</th>
+                    <th>Date</th>
+                    <th>Slot</th>
+                    <th>Seat Number</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in bookedTickets %}
+                <tr>
+                    <td>{{ item.bookingTime.movie.title }}</td>
+                    <td>{{ item.bookingTime.date }}</td>
+                    <td>{{ item.bookingTime.slotChoice  }}</td>
+                    <td>{{ item.seat }}</td> 
+                    <td>
+                        <form action="{% url 'remove_from_cart' item.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="remove-btn" onclick="return confirm('Are you sure you want to remove this item?');">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% else %}
+            <p>Your cart is empty.</p>  
+        {% endif %}
+    </div>
+
+</body>
+</html>

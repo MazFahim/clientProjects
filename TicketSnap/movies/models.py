@@ -86,7 +86,7 @@ class Booking(models.Model):
         unique_together = ('seat', 'bookingTime')
 
     def __str__(self):
-        return f"Booking for {self.bookingTime}-{self.user}"
+        return f"Booking for {self.bookingTime}-{self.user}-{self.seat}"
 
 
 
