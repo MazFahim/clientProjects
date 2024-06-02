@@ -165,6 +165,8 @@ def confirm_shipment(request):
             cart_items = Cart.objects.filter(session_key=session_key)
 
         payment_method = request.POST.get('payment_method')
+        delivery_time_from = request.POST.get('delivery_time_from')
+        delivery_time_to = request.POST.get('delivery_time_to')
 
         customer_name = request.POST.get('customer_name')
         customer_address = request.POST.get('customer_address')
@@ -178,7 +180,8 @@ def confirm_shipment(request):
                     product=item.product,
                     quantity=item.quantity,
                     payment_method=payment_method,
-
+                    delivery_time_from=delivery_time_from,
+                    delivery_time_to=delivery_time_to,
                     customer_name=customer_name,
                     customer_address=customer_address,
                     customer_phone=customer_phone,
@@ -192,7 +195,8 @@ def confirm_shipment(request):
                     product=item.product,
                     quantity=item.quantity,
                     payment_method=payment_method,
-
+                    delivery_time_from=delivery_time_from,
+                    delivery_time_to=delivery_time_to,
                     customer_name=customer_name,
                     customer_address=customer_address,
                     customer_phone=customer_phone,

@@ -97,13 +97,16 @@ class Shipping(models.Model):
     product = models.ForeignKey('Wears', on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     payment_method = models.CharField(max_length=100)
-
+    delivery_time_from = models.DateField(null=True, blank=True) 
+    delivery_time_to = models.DateField(null=True, blank=True) 
     customer_name = models.CharField(max_length=100, null=True)
     customer_address = models.CharField(max_length=200, null=True)
     customer_phone = models.CharField(max_length=20, null=True)
     customer_email = models.EmailField(null=True, blank=True)
     def __str__(self):
-        return f"{self.user.username} - {self.product.productName} - {self.quantity} - {self.payment_method}"
+        if self.user is None:
+            return f"{self.session_key} - {self.product.productName} - {self.quantity} - {self.payment_method}"
+        return f"{self.user} - {self.product.productName} - {self.quantity} - {self.payment_method}"
     
 
 
