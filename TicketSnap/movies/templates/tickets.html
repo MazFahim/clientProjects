@@ -94,7 +94,7 @@
                     </div>
                 {% endfor %}
             </div>
-            <button type="submit" onclick="bookSeats();">Book Seats</button>
+            <button type="submit" onclick="bookSeats(event);">Book Seats</button>
         </form>
     </div>
 
@@ -112,13 +112,14 @@
             }
         }
     }
-    function bookSeats() {
+    function bookSeats(event) {
         var selectedSeats = document.querySelectorAll('.seat.selected');
         if (selectedSeats.length > 0) {
             var seatNumbers = Array.from(selectedSeats).map(seat => seat.textContent.trim()).join(", ");
             alert('You have booked the following seats: ' + seatNumbers);
         } else {
             alert('Please select at least one seat before booking.');
+            event.preventDefault();
         }
     }
 </script>

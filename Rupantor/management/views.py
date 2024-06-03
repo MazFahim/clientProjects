@@ -4,8 +4,7 @@ from django.http import HttpResponse
 from django.template import loader
 from .forms import CustomerMessageForm
 from .models import *
-from django.views.decorators.http import require_POST
-from django.contrib.sessions.models import Session
+from django.contrib import messages
 
 
 def test(request):
@@ -262,3 +261,31 @@ def filtered_elements(request):
             'categorized': categorized
         }
         return HttpResponse(template.render(context, request))
+    
+
+def received_shipment(request, item_id):
+    try:
+        if request.user.is_authenticated:
+            shipped_item = get_object_or_404(Shipping, id=item_id, user=request.user)
+        else:
+            session_key = request.session.session_key
+            if not session_key:
+                # If session key is not set, initialize it
+                request.session.create()
+                session_key = request.session.session_key
+            shipped_item = get_object_or_404(Shipping, id=item_id, session_key=session_key)
+
+        # Create a ShippedItems entry
+        shipped_item_obj = ShippedItems.objects.create(item=shipped_item)
+
+        if shipped_item_obj:  # Check if the object was created successfully
+            shipped_item.delete()
+            messages.success(request, 'Item marked as received and moved to shipped items.')
+        else:
+            messages.error(request, 'Failed to mark item as received.')
+
+    except Exception as e:
+        # Log the error or print it for debugging
+        print(f"Error: {e}")
+        messages.error(request, 'An error occurred while processing your request.')
+    return redirect('cart')

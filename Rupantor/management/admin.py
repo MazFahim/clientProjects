@@ -8,6 +8,7 @@ admin.site.register(Featured)
 admin.site.register(Offer)
 admin.site.register(Shipping)
 admin.site.register(Category)
+admin.site.register(ShippedItems)
 
 @admin.register(Wears)
 class WearAdmin(admin.ModelAdmin):

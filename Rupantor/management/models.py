@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 
 
@@ -92,6 +93,11 @@ class Offer(models.Model):
 
 
 class Shipping(models.Model):
+    statusChoices = [
+        ('Preparing','Preparing'),
+        ('Packaging','Packaging'),
+        ('Shipping','Shipping'),
+    ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='shippings', null=True, blank=True)
     session_key = models.CharField(max_length=40, null=True, blank=True)
     product = models.ForeignKey('Wears', on_delete=models.CASCADE)
@@ -103,6 +109,8 @@ class Shipping(models.Model):
     customer_address = models.CharField(max_length=200, null=True)
     customer_phone = models.CharField(max_length=20, null=True)
     customer_email = models.EmailField(null=True, blank=True)
+    shippingStatus = models.CharField(max_length=20, choices=statusChoices, default='Preparing', null=True, blank=True)
+
     def __str__(self):
         if self.user is None:
             return f"{self.session_key} - {self.product.productName} - {self.quantity} - {self.payment_method}"
@@ -126,3 +134,10 @@ class UserReview(models.Model):
     def __str__(self):
         return f"Rating: {self.get_rating_display()} - {self.message[:50]}..."
 
+
+class ShippedItems(models.Model):
+    item = models.ForeignKey('Shipping', on_delete=models.CASCADE)
+    receivedDate = models.DateField(default=timezone.now)
+
+    def __str__(self) -> str:
+        return f"{self.item.product} - {self.receivedDate}" 
