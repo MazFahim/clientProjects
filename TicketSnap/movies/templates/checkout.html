@@ -57,11 +57,12 @@
     <div class="checkout-form">
         <h2>Payment Information</h2>
         <h4>Your Total: {{ total_price }}</h4>
-        <ul>
+        <!-- <ul>
             {% for seat in seats %}
                 <li>Seat ID: {{ seat.id }}, Price: 300</li>
             {% endfor %}
-        </ul>
+        </ul> -->
+        <input type="hidden" id="total_price_input" value="{{ total_price }}">
         <form method="POST" action="">
             {% csrf_token %}
             <div class="form-group">
@@ -72,16 +73,15 @@
                 <label for="cardNumber">Card Number</label>
                 <input type="number" id="cardNumber" name="cardNumber" required>
             </div>
-            <!-- <div class="form-group">
-                <label for="expiry">Expiry Date</label>
-                <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
-            </div>
             <div class="form-group">
-                <label for="cvv">CVV</label>
-                <input type="number" id="cvv" name="cvv" required>
-            </div> -->
-            <button type="submit">Confirm Payment</button>
+                <label for="couponCode">Coupon Code(If any):</label>
+                <input type="text" id="couponCode" name="couponCode">
+            </div>
+            
+            <button type="submit" >Confirm Payment</button>
         </form>
     </div>
+
+    
 </body>
 </html>

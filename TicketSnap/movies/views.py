@@ -5,6 +5,7 @@ from django.template import loader
 from .models import *
 from .forms import CustomerMessageForm
 from django.db import transaction
+from django.http import JsonResponse
 
 
 
@@ -116,14 +117,24 @@ def checkout(request):
     seat_ids = request.session.get('booked_seats', [])
     showtime_mapper_id = request.session.get('showtime_mapper_id')
     seats = Seat.objects.filter(id__in=seat_ids)
-    total_price = sum(150 for seat in seats)
+    coupons = CouponCode.objects.all()
+    total_price = sum(250 for seat in seats)
     
     if request.method == 'POST':
         request.session.pop('booked_seats', None)
         request.session.pop('showtime_mapper_id', None)
+
+        couponCode = request.POST.get('couponCode')
+
+        for coupon in coupons:
+            if coupon.code == couponCode:
+                if coupon.discountAmount!=None and coupon.discountPercent == None:
+                    total_price = total_price - coupon.discountAmount
+                elif coupon.discountPercent!=None and coupon.discountAmount == None:
+                    total_price = total_price - (total_price*coupon.discountPercent/100)
         return render(request, 'confirmation.html', {'seats': seats, 'total_price': total_price})
 
-    return render(request, 'checkout.html', {'seats': seats, 'total_price': total_price})
+    return render(request, 'checkout.html', {'seats': seats, 'total_price': total_price, 'coupons': coupons})
 
 
 
@@ -184,3 +195,12 @@ def remove_from_cart(request, item_id):
     if request.method == 'POST':
         booked_seat.delete()
     return redirect('cart')
+
+
+def checkCoupon(request):
+    couponCode = request.Get.get('code')
+    try:
+        coupon = CouponCode.objects.get(code=couponCode)
+        return JsonResponse({'valid':True, 'discountPecent': coupon.discountPecent, 'discountAmount': coupon.discountAmount})
+    except CouponCode.DoesNotExist:
+        return JsonResponse({'valid':False})
