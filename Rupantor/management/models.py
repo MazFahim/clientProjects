@@ -141,3 +141,12 @@ class ShippedItems(models.Model):
 
     def __str__(self) -> str:
         return f"{self.item.product} - {self.receivedDate}" 
+
+
+class CouponCode(models.Model):
+    code = models.CharField(max_length=20, unique=True)
+    discountPercent = models.IntegerField(null=True, blank=True, help_text="Enter the percentage amount you are willing to provide")
+    discountAmount = models.IntegerField(null=True, blank=True, help_text="Enter the discount amount you are willing to provide")
+
+    def __str__(self):
+        return f"Code: {self.code} - Discount Percentage: {self.discountPercent} - Discount Amount: {self.discountAmount}"

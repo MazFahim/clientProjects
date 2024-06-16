@@ -196,11 +196,3 @@ def remove_from_cart(request, item_id):
         booked_seat.delete()
     return redirect('cart')
 
-
-def checkCoupon(request):
-    couponCode = request.Get.get('code')
-    try:
-        coupon = CouponCode.objects.get(code=couponCode)
-        return JsonResponse({'valid':True, 'discountPecent': coupon.discountPecent, 'discountAmount': coupon.discountAmount})
-    except CouponCode.DoesNotExist:
-        return JsonResponse({'valid':False})

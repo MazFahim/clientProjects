@@ -171,6 +171,12 @@ def confirm_shipment(request):
         customer_address = request.POST.get('customer_address')
         customer_phone = request.POST.get('customer_phone')
         customer_email = request.POST.get('customer_email')
+        couponCode = request.POST.get('couponCode')
+
+        coupons = CouponCode.objects.all()
+
+        totalPayableAmount = 0
+        total_price = 0
 
         if request.user.is_authenticated:
             for item in cart_items:
@@ -186,6 +192,8 @@ def confirm_shipment(request):
                     customer_phone=customer_phone,
                     customer_email=customer_email
                 )
+                item.subtotal = item.quantity * item.product.productPrice
+                totalPayableAmount = totalPayableAmount + item.subtotal
         else:
             session_key = request.session.session_key
             for item in cart_items:
@@ -201,16 +209,34 @@ def confirm_shipment(request):
                     customer_phone=customer_phone,
                     customer_email=customer_email
                 )
+                item.subtotal = item.quantity * item.product.productPrice
+                totalPayableAmount = totalPayableAmount + item.subtotal
+
+        for coupon in coupons:
+            if coupon.code == couponCode:
+                if coupon.discountAmount!=None and coupon.discountPercent == None:
+                    total_price = totalPayableAmount - coupon.discountAmount
+                elif coupon.discountPercent!=None and coupon.discountAmount == None:
+                    total_price = totalPayableAmount - (totalPayableAmount*coupon.discountPercent/100)
+
         # Clear the Cart after transferring to Shipping
         cart_items.delete()
 
-        return HttpResponse('order_confirmed')
+        template = loader.get_template('orderConfirmed.html')
+
+        context = {
+            'TotalPayableAmount':totalPayableAmount,
+            'total_price': total_price
+        }
+
+        return HttpResponse(template.render(context, request))
     else:
         return redirect('cart')
     
 
 
 def search(request):
+
     if request.method == 'GET':
         query = request.GET.get('q')
         if query:
@@ -221,7 +247,7 @@ def search(request):
     return render(request, 'search_results.html', {'search_results': None})
 
 
-@login_required
+# for this action, login was required
 def add_review(request, product_id):
     if request.method == 'POST':
         rating = request.POST.get('rating')
@@ -270,7 +296,6 @@ def received_shipment(request, item_id):
         else:
             session_key = request.session.session_key
             if not session_key:
-                # If session key is not set, initialize it
                 request.session.create()
                 session_key = request.session.session_key
             shipped_item = get_object_or_404(Shipping, id=item_id, session_key=session_key)
@@ -278,14 +303,13 @@ def received_shipment(request, item_id):
         # Create a ShippedItems entry
         shipped_item_obj = ShippedItems.objects.create(item=shipped_item)
 
-        if shipped_item_obj:  # Check if the object was created successfully
+        if shipped_item_obj: 
             shipped_item.delete()
             messages.success(request, 'Item marked as received and moved to shipped items.')
         else:
             messages.error(request, 'Failed to mark item as received.')
 
     except Exception as e:
-        # Log the error or print it for debugging
         print(f"Error: {e}")
         messages.error(request, 'An error occurred while processing your request.')
     return redirect('cart')
