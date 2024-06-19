@@ -136,11 +136,18 @@ class UserReview(models.Model):
 
 
 class ShippedItems(models.Model):
-    item = models.ForeignKey('Shipping', on_delete=models.CASCADE)
+    # item = models.ForeignKey('Shipping', on_delete=models.CASCADE)
+
+    product = models.CharField(max_length=100, blank=True)
+    quantity = models.IntegerField(null=True)
+    customerName = models.CharField(max_length=100, null=True)
+    customerPhone = models.CharField(max_length=100, null=True)
+    customerEmail = models.EmailField(blank=True, null=True)
     receivedDate = models.DateField(default=timezone.now)
 
+
     def __str__(self) -> str:
-        return f"{self.item.product} - {self.receivedDate}" 
+        return f"{self.product} - {self.receivedDate}" 
 
 
 class CouponCode(models.Model):

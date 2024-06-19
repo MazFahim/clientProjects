@@ -1,3 +1,4 @@
+from datetime import date
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -301,7 +302,14 @@ def received_shipment(request, item_id):
             shipped_item = get_object_or_404(Shipping, id=item_id, session_key=session_key)
 
         # Create a ShippedItems entry
-        shipped_item_obj = ShippedItems.objects.create(item=shipped_item)
+        shipped_item_obj = ShippedItems.objects.create(
+            product = shipped_item.product.productName,
+            quantity = shipped_item.quantity,
+            customerName = shipped_item.customer_name,
+            customerPhone = shipped_item.customer_phone,
+            customerEmail = shipped_item.customer_email,
+            receivedDate = date.today()
+            )
 
         if shipped_item_obj: 
             shipped_item.delete()
