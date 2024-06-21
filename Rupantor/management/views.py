@@ -321,3 +321,12 @@ def received_shipment(request, item_id):
         print(f"Error: {e}")
         messages.error(request, 'An error occurred while processing your request.')
     return redirect('cart')
+
+
+def purchase_history(request):
+    purchaseHistory = ShippedItems.objects.all()
+    context = {
+        'purchaseHistory':purchaseHistory
+    }
+    template = loader.get_template('purchaseHistory.html')
+    return HttpResponse(template.render(context, request))

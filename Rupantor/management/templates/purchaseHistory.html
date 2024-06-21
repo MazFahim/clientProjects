@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase History</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    
+    <div class="shipped-container">
+        {% if purchaseHistory %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quanatity</th>
+                    <th>Phone</th>
+                    <th>Received Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in purchaseHistory %}
+                    <tr>
+                        <td>{{ item.product }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.customerPhone }}</td>
+                        <td>{{ item.receivedDate }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p>You have not purchased anything yet</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
