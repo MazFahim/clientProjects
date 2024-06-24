@@ -132,12 +132,12 @@ class UserReview(models.Model):
     rating = models.IntegerField(choices=ratingChoices)
 
     def __str__(self):
-        return f"Rating: {self.get_rating_display()} - {self.message[:50]}..."
+        return f"Rating: {self.rating} - {self.message[:50]}..."
 
 
 class ShippedItems(models.Model):
-    # item = models.ForeignKey('Shipping', on_delete=models.CASCADE)
-
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    session_key = models.CharField(max_length=40, null=True, blank=True)
     product = models.CharField(max_length=100, blank=True)
     quantity = models.IntegerField(null=True)
     customerName = models.CharField(max_length=100, null=True)

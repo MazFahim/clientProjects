@@ -6,6 +6,7 @@ from django.template import loader
 from .forms import CustomerMessageForm
 from .models import *
 from django.contrib import messages
+from django.utils import timezone
 
 
 def test(request):
@@ -302,13 +303,25 @@ def received_shipment(request, item_id):
             shipped_item = get_object_or_404(Shipping, id=item_id, session_key=session_key)
 
         # Create a ShippedItems entry
-        shipped_item_obj = ShippedItems.objects.create(
-            product = shipped_item.product.productName,
-            quantity = shipped_item.quantity,
-            customerName = shipped_item.customer_name,
-            customerPhone = shipped_item.customer_phone,
-            customerEmail = shipped_item.customer_email,
-            receivedDate = date.today()
+        if request.user.is_authenticated:
+            shipped_item_obj = ShippedItems.objects.create(
+                user=request.user,
+                product = shipped_item.product.productName,
+                quantity = shipped_item.quantity,
+                customerName = shipped_item.customer_name,
+                customerPhone = shipped_item.customer_phone,
+                customerEmail = shipped_item.customer_email,
+                receivedDate = date.today()
+            )
+        else:
+            shipped_item_obj = ShippedItems.objects.create(
+                session_key=session_key,
+                product = shipped_item.product.productName,
+                quantity = shipped_item.quantity,
+                customerName = shipped_item.customer_name,
+                customerPhone = shipped_item.customer_phone,
+                customerEmail = shipped_item.customer_email,
+                receivedDate = date.today()
             )
 
         if shipped_item_obj: 
@@ -325,8 +338,24 @@ def received_shipment(request, item_id):
 
 def purchase_history(request):
     purchaseHistory = ShippedItems.objects.all()
+    today = timezone.now().date()
     context = {
-        'purchaseHistory':purchaseHistory
+        'purchaseHistory': purchaseHistory,
+        'today' : today
     }
     template = loader.get_template('purchaseHistory.html')
     return HttpResponse(template.render(context, request))
+
+
+def return_item(request, item_id):
+    if request.user.is_authenticated:
+        returned_item = get_object_or_404(ShippedItems, id=item_id, user=request.user)
+    else:
+        session_key = request.session.session_key
+        if not session_key:
+            request.session.create()
+            session_key = request.session.session_key
+        returned_item = get_object_or_404(ShippedItems, id=item_id, session_key=session_key)
+
+    returned_item.delete()
+    return redirect('cart')
