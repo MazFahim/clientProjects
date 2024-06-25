@@ -10,6 +10,7 @@ admin.site.register(Shipping)
 admin.site.register(Category)
 admin.site.register(ShippedItems)
 admin.site.register(CouponCode)
+admin.site.register(UserReview)
 
 @admin.register(Wears)
 class WearAdmin(admin.ModelAdmin):
