@@ -78,9 +78,15 @@
             width: 80%;
             margin: 20px auto;
         }
-        .review-textbox {
+        .reviews form,
+        .reviews .review-list {
             width: 100%;
             max-width: 600px;
+            margin: 0 50px;
+        }
+        .review-textbox {
+            width: 100%;
+            max-width: 400px;
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ccc;
@@ -89,8 +95,11 @@
         }
 
         .rating {
+            width: 100%;
+            max-width: 150px;
+            margin: 0 15px;
             display: flex;
-            flex-direction: row;
+            flex-direction: row-reverse;
             justify-content: flex-start; 
         }
 
@@ -110,6 +119,24 @@
         .rating > input:checked ~ label {
             color: #f5b301;
         }
+        .review-list li {
+            display: block;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .review-list strong {
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        .stars {
+            color: #f5b301;
+            font-size: 1.5rem;
+        }
+        
+
     </style>
 </head>
 <body>
@@ -153,11 +180,11 @@
         {% csrf_token %}
         <label for="rating">Rating</label>
         <div class="rating">
-            <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
-            <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
-            <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
-            <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
             <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+            <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+            <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+            <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+            <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
         </div><br>
         <label for="message">Your Review:</label><br>
         <textarea name="message" id="message" rows="4" cols="50" class="review-textbox"></textarea><br>
@@ -165,16 +192,28 @@
     </form>
 
     <h2>Product Reviews</h2>
-    {% if reviews %}
-     <ul>
-        {% for review in reviews %}
-            <li>
-                <strong>{{ review.user.username }}</strong> - Rating: {{ review.rating }} <br>
-                {{ review.message }}
-            </li>
-        {% endfor %}
-     </ul>
-    {% endif %}
+    <div class="review-list">
+        {% if reviews %}
+            {% for review in reviews %}
+                <li>
+                    {% if review.user.username %}
+                        <strong>{{ review.user.username }}</strong> 
+                    {% else %}
+                        <strong>Anonymous</strong> 
+                    {% endif %}
+                    - Rating: 
+                    <span class="stars">
+                        {% for i in ''|center:review.rating %}
+                            ★
+                        {% endfor %}
+                    </span>
+                    <br>
+                    {{ review.message }}
+                </li>
+            {% endfor %}
+        {% endif %}
+    </div>
+    
 </div>
 
 <script>

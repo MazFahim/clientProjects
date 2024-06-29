@@ -252,17 +252,32 @@ def search(request):
 # for this action, login was required
 def add_review(request, product_id):
     if request.method == 'POST':
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            session_key = request.session.session_key
+            if not session_key:
+                request.session.create()
+                session_key = request.session.session_key
+
         rating = request.POST.get('rating')
         message = request.POST.get('message')
-        user = request.user
         product = get_object_or_404(Wears, productId=product_id)
 
-        review = UserReview.objects.create(
-            user=user,
-            wear=product,
-            message=message,
-            rating=rating
-        )
+        if request.user.is_authenticated:
+            review = UserReview.objects.create(
+                user=user,
+                wear=product,
+                message=message,
+                rating=rating
+            )
+        else:
+            review = UserReview.objects.create(
+                session_key=session_key,
+                wear=product,
+                message=message,
+                rating=rating
+            )
         return redirect('product_detail', product_id=product_id)
     
     return HttpResponse("Method Not Allowed", status=405)
