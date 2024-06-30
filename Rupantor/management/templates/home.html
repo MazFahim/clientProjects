@@ -57,7 +57,6 @@
     <div class="card-container">
         {% for x in featured %}
         <div class="card">
-            <!-- <a href="{{ x.trailer_url }}"><img src="/media/media/{{ movie.poster }}" alt="{{ x.title }}"></a> -->
             <p><strong>{{ x.message }}</strong></p>
             {% for product in products %}
                 <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
@@ -79,7 +78,6 @@
         {% for x in offers %}
         
         <div class="card">
-            <!-- <a href="{{ x.trailer_url }}"><img src="/media/media/{{ movie.poster }}" alt="{{ x.title }}"></a> -->
             <p><strong>Discounts: {{ x.Discount }}</strong></p>
             {% for product in products %}
                 <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
@@ -93,15 +91,8 @@
             </div>
         {% endfor %}
     </div>
-    <!-- <div>
-        <p>Customer Reviews </p><br>
-        SlideShow 
-    </div>
-    <div>
-        <p>FAQs</p> 
-    </div> -->
-
-    {% include 'footer.html' %}
+    
+    <!-- {% include 'footer.html' %} -->
 
 </body>
 </html>
