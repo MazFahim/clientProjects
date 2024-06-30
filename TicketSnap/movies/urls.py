@@ -12,5 +12,6 @@ urlpatterns = [
     path('movie/<int:movie_id>/', views.movie_detail, name='movie_detail'),
     path('movie/<int:movie_id>/add_review/', views.add_review, name='add_review'),
     path('cart/', views.cart, name='cart'),
+    path('about_us/', views.about_us, name='about_us'),
     path('remove_from_cart/<int:item_id>/', views.remove_from_cart, name='remove_from_cart')
 ]

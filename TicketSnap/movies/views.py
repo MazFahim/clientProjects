@@ -196,3 +196,8 @@ def remove_from_cart(request, item_id):
         booked_seat.delete()
     return redirect('cart')
 
+
+def about_us(request):
+    template = loader.get_template('about_us.html')
+
+    return HttpResponse(template.render())
