@@ -93,7 +93,6 @@
             <li><a href="/cart/">Cart</a></li>
             <li><a href="/contact/">Contact Us</a></li>
             {% if request.user.is_authenticated  %}
-                <!-- <p>Hello {{ user.username }}</p> -->
                 <li><a href="/logout/">LogOut from {{ user.username }}</a></li>
             {% else %}
                 <li><a href="/login/">Login </a></li>
