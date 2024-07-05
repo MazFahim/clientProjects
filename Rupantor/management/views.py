@@ -374,3 +374,9 @@ def return_item(request, item_id):
 
     returned_item.delete()
     return redirect('cart')
+
+
+def about_us(request):
+    template = loader.get_template('about_us.html')
+
+    return HttpResponse(template.render())
