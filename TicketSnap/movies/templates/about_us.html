@@ -7,15 +7,74 @@
     <style>
         body {
             background-image: url('/media/about-us.jpeg');
-            background-size: cover; 
-            background-position: center; 
+            background-size: cover;
+            background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+        .content {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .team {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .team-member {
+            background: rgba(255, 255, 255, 0.2);
+            margin: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            width: calc(33% - 40px);
+            box-sizing: border-box;
+        }
+        .team-member img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     {% include 'headerNavbar.html' %}
+    
+    <div class="content">
+        <h1>About Us</h1>
+        <p>Welcome to TicketSnap! We are dedicated to providing the best services to our customers. Our mission is to bring excellence in movie watching. We believe in the power of creativity and hard work, and we are constantly striving to improve and grow.</p>
+        <p>Founded in 2024, our company has grown significantly over the years, thanks to the support of our loyal customers and the hard work of our dedicated team. We are proud to be a leader in the Movie Hall industry and look forward to continuing to serve our community.</p>
+        <h2>Our Team</h2>
+        <div class="team">
+            <div class="team-member">
+                <!-- <img src="/media/team-member1.jpg" alt="Team Member 1"> -->
+                <h3>Jannat</h3>
+                <p>CEO</p>
+            </div>
+            <div class="team-member">
+                <!-- <img src="/media/team-member2.jpg" alt="Team Member 2"> -->
+                <h3>Pinky</h3>
+                <p>CTO</p>
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>
