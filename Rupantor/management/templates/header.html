@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <title>{% block title %}{% endblock %}</title>
     <style>
         body{
@@ -84,15 +85,15 @@
                 <div class="search-container">
                     <form action="{% url 'search' %}" method="get">
                         <input type="text" placeholder="Search.." class="search-box" name="q">
-                        <button type="submit" class="search-button">Search</button>
+                        <button type="submit" class="search-button"><img src="{% static 'icons-search.png' %}" alt="Cart" style="height:21px; vertical-align:middle;"></button>
                     </form>
                 </div>
             </li>
             <li><a href="/summerwear/">Summer Wear</a></li>
             <li><a href="/winterwear/">Winter Wear</a></li>
-            <li><a href="/cart/">Cart</a></li>
             <li><a href="/contact/">Contact Us</a></li>
             <li><a href="/about_us/">About Us</a></li>
+            <li><a href="/cart/"><img src="{% static 'icons-shopping-cart-.png' %}" alt="Cart" style="height:26px; vertical-align:middle;"></a></li>
             {% if request.user.is_authenticated  %}
                 <li><a href="/logout/">LogOut from {{ user.username }}</a></li>
             {% else %}
