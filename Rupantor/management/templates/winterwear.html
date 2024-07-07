@@ -55,6 +55,10 @@
 
     <div class="card-container">
         {% for product in wears %}
+            {% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
+                <br><br>
+            {% endif %}
+    
             {% if product.summerOrWinter == "WinterWear" %}
             <a href="{% url 'product_detail' product.productId %}" style="text-decoration: none; color: inherit;">
                 <div class="card">

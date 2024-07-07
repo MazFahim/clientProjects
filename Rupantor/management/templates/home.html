@@ -56,6 +56,10 @@
 
     <div class="card-container">
         {% for x in featured %}
+            {% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
+                <br><br>
+            {% endif %}
+
         <div class="card">
             <p><strong>{{ x.message }}</strong></p>
             {% for product in products %}
@@ -76,7 +80,10 @@
     
     <div class="card-container">
         {% for x in offers %}
-        
+            {% if forloop.counter0|divisibleby:5 and forloop.counter0 != 0 %}
+                <br><br>
+            {% endif %}
+    
         <div class="card">
             <p><strong>Discounts: {{ x.Discount }}</strong></p>
             {% for product in products %}
