@@ -49,7 +49,6 @@ class CustomerMessage(models.Model):
 class Seat(models.Model):    
     row = models.IntegerField()
     number = models.IntegerField()
-    # is_booked = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('row', 'number')
@@ -91,17 +90,11 @@ class Booking(models.Model):
 
 
 class UserReview(models.Model):
-    ratingChoices =  [
-        (1, '1 Star'),
-        (2, '2 Stars'),
-        (3, '3 Stars'),
-        (4, '4 Stars'),
-        (5, '5 Stars'),
-    ]
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='review')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='review', null=True, blank=True)
+    session_key = models.CharField(max_length=40, null=True, blank=True)
     movie = models.ForeignKey('Movie', on_delete=models.CASCADE)
     message = models.TextField()
-    rating = models.IntegerField(choices=ratingChoices)
+    rating = models.IntegerField()
 
     def __str__(self):
         return f"Rating: {self.get_rating_display()} - {self.message[:50]}..."
