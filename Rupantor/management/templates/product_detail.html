@@ -191,9 +191,9 @@
         <input type="submit" value="Submit Review" id="add-button">
     </form>
 
-    <h2>Product Reviews</h2>
     <div class="review-list">
         {% if reviews %}
+        <h2>Product Reviews</h2>
             {% for review in reviews %}
                 <li>
                     {% if review.user.username %}

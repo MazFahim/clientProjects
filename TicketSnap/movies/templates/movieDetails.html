@@ -67,6 +67,65 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .reviews {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .reviews form,
+        .reviews .review-list {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 50px;
+        }
+        .review-textbox {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .rating {
+            width: 100%;
+            max-width: 150px;
+            margin: 0 15px;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-start; 
+        }
+
+        .rating > input {
+            display: none;
+        }
+        .rating > label {
+            color: #DF1212;
+            font-size: 2rem;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .rating > label:hover,
+        .rating > label:hover ~ label,
+        .rating > input:checked ~ label {
+            color: #f5b301;
+        }
+        .review-list li {
+            display: block;
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .review-list strong {
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        .stars {
+            color: #f5b301;
+            font-size: 1.5rem;
+        }
     </style>
 </head>
 <body>
@@ -76,7 +135,7 @@
 <div class="container">
     <div class="product-details">
         <h1>{{ movie.title }}</h1>
-        <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="product-image">
+        <img src="/media/media/{{ movie.poster }}" alt="{{ movie.title }}" class="product-image">
         <div class="details">
             <p><strong>Casts:</strong> {{ movie.actors }}</p>
             <p><strong>Director:</strong> {{ movie.director }}</p>
@@ -91,35 +150,46 @@
     
 </div>
 
-<div>
+<div class="reviews">
     <h1>Movie Reviews</h1>
     <h2>Add your review</h2>
     <form action="{% url 'add_review' movie_id=movie.movieId %}" method="post">
         {% csrf_token %}
         <label for="rating">Rating</label>
-        <select name="rating" id="rating">
-            <option value="1">1 Star</option>
-            <option value="2">2 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="5">5 Stars</option>
-        </select><br>
+        <div class="rating">
+            <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+            <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+            <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+            <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+            <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+        </div><br>
         <label for="message">Your Review:</label><br>
-        <textarea name="message" id="message" rows="4" cols="50"></textarea><br>
-        <input type="submit" value="Submit Review">
+        <textarea name="message" id="message" rows="4" cols="50" class="review-textbox"></textarea><br>
+        <input type="submit" value="Submit Review" id="add-button">
     </form>
 
-    <h2>Product Reviews</h2>
-    {% if reviews %}
-     <ul>
-        {% for review in reviews %}
-            <li>
-                <strong>{{ review.user.username }}</strong> - Rating: {{ review.rating }} <br>
-                {{ review.message }}
-            </li>
-        {% endfor %}
-     </ul>
-    {% endif %}
+    <div class="review-list">
+        {% if reviews %}
+            <h2>Movie Reviews</h2>
+            {% for review in reviews %}
+                <li>
+                    {% if review.user.username %}
+                        <strong>{{ review.user.username }}</strong> 
+                    {% else %}
+                        <strong>Anonymous</strong> 
+                    {% endif %}
+                    - Rating: 
+                    <span class="stars">
+                        {% for i in ''|center:review.rating %}
+                            ★
+                        {% endfor %}
+                    </span>
+                    <br>
+                    {{ review.message }}
+                </li>
+            {% endfor %}
+        {% endif %}
+    </div>
 </div>
 </body>
 </html>
