@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body{
             margin: 0;
@@ -16,6 +17,7 @@
             padding: 0;
             overflow: hidden;
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;    
         }
         li{
@@ -26,7 +28,7 @@
             margin-right: 0; 
         }
         li:first-child {
-            margin-right: 600px; 
+            margin-right: auto; 
         }
         li a {
             display: block;
@@ -49,6 +51,21 @@
         .home-link:hover {
             background-color: #444;
         }
+        @media (max-width: 768px) {
+            ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            li {
+                margin-right: 0;
+                width: 100%;
+                text-align: center;
+            }
+            li:first-child {
+                margin-right: 0; 
+            }
+        }
+
     </style>
 </head>
 <body>
