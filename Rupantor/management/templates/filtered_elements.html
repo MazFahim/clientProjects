@@ -50,26 +50,30 @@
     {% include 'header.html' %}
 
     {% include 'sidebar.html' %}
-    
-    <h2 class="category-title">Rupantor Featured:</h1>
 
     <div class="card-container">
         {% for item in items %}
-        <div class="card">
-            {% for product in categorized %}
-                {% if item.productId == product.productId %}
-                    <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
-                        <img src="/media/{{ product.productImage }}" alt="no image">
-                        <p>{{ product.productName }}</p>
-                        <p>Price: ৳{{ product.productPrice }}</p>
-                    </a>
-                {% endif %}
-                
-            {% endfor %}
+            {% if forloop.counter0|divisibleby:3 and forloop.counter0 != 0 %}
+                </div><div class="card-container">
+            {% endif %}
+            <div class="card">
+                {% for product in categorized %}
+                    {% if item.productId == product.productId %}
+                        <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
+                            <img src="/media/{{ product.productImage }}" alt="no image">
+                            <p>{{ product.productName }}</p>
+                            <p>Price: ৳{{ product.productPrice }}</p>
+                        </a>
+                    {% endif %}
+                {% endfor %}
             </div>
         {% endfor %}
-        
     </div>
+    
+    {% if forloop.counter0|divisibleby:3 == False %}
+        </div>
+    {% endif %}
+        
    
 </body>
 </html>

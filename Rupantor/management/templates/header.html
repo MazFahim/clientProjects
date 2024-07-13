@@ -4,44 +4,40 @@
     {% load static %}
     <title>{% block title %}{% endblock %}</title>
     <style>
-        body{
+        body {
             margin: 0;
         }
         nav {
             background-color: #B804B5;
             overflow: hidden;
         }
-        ul{
+        ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
             display: flex;
-            justify-content: center;    
-        }
-        li{
-            width: auto;
-            margin-right: 50px;
-            margin-top: 8px;
-        }
-        li:last-child {
-            margin-right: 0; 
+            justify-content: flex-end; 
+            flex-wrap: wrap;
         }
         li:first-child {
-            margin-right: 250px; 
+            margin-right: auto; /* Added to push other items to the right */
+        }
+        li {
+            margin: 8px;
         }
         li a {
             display: block;
             color: white;
             text-align: center;
             padding: 14px 20px;
-            text-decoration: None;
+            text-decoration: none;
         }
         li a:hover {
             background-color: white;
             color: #B804B5;
         }
-        .home-link{
+        .home-link {
             font-weight: bold;
             font-size: 30px;
             color: white;
@@ -52,10 +48,7 @@
             background-color: white;
         }
         .search-container {
-            display: flex;
-            margin-left: auto;
-            align-items: center;
-            padding-right: 20px;
+            margin-right: 20px; 
         }
         .search-box {
             padding: 10px;
@@ -74,6 +67,29 @@
             background-color: white;
             color: #B804B5;
         }
+        @media (max-width: 768px) {
+            ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            li {
+                width: 100%;
+                text-align: center;
+            }
+            .search-container {
+                width: 100%;
+                justify-content: center;
+                margin-right: 0;
+            }
+            .home-link {
+                font-size: 24px;
+                padding: 8px;
+            }
+            .search-box, .search-button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -89,12 +105,12 @@
                     </form>
                 </div>
             </li>
-            <li><a href="/summerwear/">Summer Wear</a></li>
-            <li><a href="/winterwear/">Winter Wear</a></li>
+            <!-- <li><a href="/summerwear/">Summer Wear</a></li>
+            <li><a href="/winterwear/">Winter Wear</a></li> -->
             <li><a href="/contact/">Contact Us</a></li>
             <li><a href="/about_us/">About Us</a></li>
             <li><a href="/cart/"><img src="{% static 'icons-shopping-cart-.png' %}" alt="Cart" style="height:26px; vertical-align:middle;"></a></li>
-            {% if request.user.is_authenticated  %}
+            {% if request.user.is_authenticated %}
                 <li><a href="/logout/">LogOut from {{ user.username }}</a></li>
             {% else %}
                 <li><a href="/login/">Login </a></li>
