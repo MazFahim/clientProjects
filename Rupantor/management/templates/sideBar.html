@@ -109,6 +109,23 @@
             text-align: center;
             margin-top: 20px;
         }
+        @media (max-width: 768px) {
+            .sideNav {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                border-right: none;
+                border-bottom: 2px solid #9B0395;
+            }
+            .sideNav a, .dropdown-btn, .apply-button {
+                text-align: center;
+                padding: 15px;
+            }
+            .dropdown-container {
+                padding-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -137,13 +154,15 @@
             </button>
             <div class="dropdown-container">
                 <!-- <label for="price-range">Price Range:</label> -->
-                <!-- <input type="range" id="min-price" name="min-price" min="0" max="1000" value="0"> -->
-                <input type="range" id="max-price" name="max-price" min="0" max="1000" value="1000">
+                <input type="range" id="min-price" name="min-price" min="0" max="5000" value="0">
+                <input type="range" id="max-price" name="max-price" min="0" max="5000" value="5000"> 
+                
                 <div id="price-values">0 - 5000</div>
             </div>
             <button class="apply-button">Apply Filters</button>
         </form>
     </div>
+    
     <script>
         var dropdown = document.getElementsByClassName("dropdown-btn");
         var applyButton = document.querySelector(".apply-button")
@@ -162,6 +181,29 @@
                 }
             });
         }
+
+        const minPrice = document.getElementById('min-price');
+        const maxPrice = document.getElementById('max-price');
+        const priceValues = document.getElementById('price-values');
+
+        function updatePriceValues() {
+            const min = parseInt(minPrice.value);
+            const max = parseInt(maxPrice.value);
+
+            if (min > max) {
+                const temp = minPrice.value;
+                minPrice.value = maxPrice.value;
+                maxPrice.value = temp;
+            }
+
+            priceValues.innerText = `${minPrice.value} - ${maxPrice.value}`;
+        }
+
+        minPrice.addEventListener('input', updatePriceValues);
+        maxPrice.addEventListener('input', updatePriceValues);
+
+        // Initialize the price values display
+        updatePriceValues();
     </script>
 </body>
 </html>

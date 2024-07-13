@@ -288,11 +288,14 @@ def filtered_elements(request):
 
     if request.method == 'GET':
         categories = request.GET.getlist('categories')
+        min_price = request.GET.get('min-price')
         max_price = request.GET.get('max-price')
 
         wears = Wears.objects.all()
         categorized = Wears.objects.all()
-
+        
+        if min_price:
+            wears = wears.filter(productPrice__gte=float(min_price))
         if max_price:
             wears = wears.filter(productPrice__lte=float(max_price))
 
