@@ -300,7 +300,7 @@ def filtered_elements(request):
             wears = wears.filter(productPrice__lte=float(max_price))
 
         if categories:
-            categorized = wears.filter(categories__categoryName__in=categories).distinct()
+            categorized = wears.filter(categories__in=categories).distinct()
 
         context = {
             'items': wears,
