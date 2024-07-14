@@ -110,8 +110,8 @@ class UserReview(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='review', null=True, blank=True)
     session_key = models.CharField(max_length=40, null=True, blank=True)
     wear = models.ForeignKey('Wears', on_delete=models.CASCADE)
-    message = models.TextField()
-    rating = models.IntegerField()
+    message = models.TextField(null=True)
+    rating = models.IntegerField(null=True)
 
     def __str__(self):
         return f"Rating: {self.rating} - {self.message[:50]}..."

@@ -9,15 +9,14 @@
         font-family: Arial, sans-serif;
         }
         .container {
-            display: flex;  /* Flexbox layout */
-            justify-content: space-between; /* Space between the main sections */
-            align-items: flex-start; /* Align items at the start of the flex container */
-            width: 80%;
+            display: flex; 
+            flex-direction: column;
+            width: 90%;
             margin: 0 auto;
             padding: 20px;
         }
-        .product-details, .cart-details {
-            flex: 1;  /* Both sections take equal width */
+        .product-details {
+            flex: 1;  
             padding: 10px;
         }
         .product-details{
@@ -25,8 +24,8 @@
             justify-content: space-around;
         }
         .product-image {
-            width: 100%;  /* Make image responsive within its container */
-            max-width: 450px;  /* Limit maximum width to prevent overly large images */
+            width: 100%;  
+            max-width: 450px;  
             height: 500px;
         }
         .details{
@@ -43,12 +42,11 @@
             text-decoration: none;
             color: blue;
         }
-        .cart-details {
+        .cart-form{
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            margin-top: 20px; 
+            margin-top: 20px;
         }
         .quantity-control {
             display: flex;
@@ -63,7 +61,7 @@
         }
         .quantity-control input {
             text-align: center;
-            max-width: 50px; /* Keeps the input box from becoming too large */
+            max-width: 50px; 
         }
         #add-button {
             padding: 10px 20px;
@@ -82,7 +80,7 @@
         .reviews .review-list {
             width: 100%;
             max-width: 600px;
-            margin: 0 50px;
+            margin: 0 auto;
         }
         .review-textbox {
             width: 100%;
@@ -135,8 +133,20 @@
             color: #f5b301;
             font-size: 1.5rem;
         }
-        
-
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+            .product-details {
+                flex-direction: row;
+                text-align: left;
+            }
+            .reviews {
+                text-align: left;
+            }
+        }
     </style>
 </head>
 <body>
@@ -180,11 +190,11 @@
         {% csrf_token %}
         <label for="rating">Rating</label>
         <div class="rating">
-            <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
-            <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
-            <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
-            <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
             <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+            <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+            <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+            <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+            <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
         </div><br>
         <label for="message">Your Review:</label><br>
         <textarea name="message" id="message" rows="4" cols="50" class="review-textbox"></textarea><br>
