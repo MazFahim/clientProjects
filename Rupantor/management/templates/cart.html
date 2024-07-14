@@ -138,10 +138,10 @@
                     <input type="radio" name="payment_method" value="cash_on_delivery" checked>
                     Cash on Delivery
                 </label>
-                <label>
+                <!-- <label>
                     <input type="radio" name="payment_method" value="bkash" disabled>
                     bKash Payment
-                </label>
+                </label> -->
                 <div class="checkout-details">
                     <h3>Shipping Details</h3>
                     <label for="customer_name">Name:</label>
@@ -197,9 +197,9 @@
                     <td>{{ item.payment_method }}</td>
                     <td>{{ item.shippingStatus }}</td>
                     <td>
-                        <form action="{% url 'received_shipment' item.id %}" method="post">
+                        <form action="{% url 'return_item' item.id %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" class="remove-btn" onclick="return confirm('Are you confirming you have recieved the item?');">Received</button>
+                            <button type="submit" class="remove-btn" onclick="return confirm('Are you confirming you have recieved the item?');">Cancel Order</button>
                         </form>
                     </td>
                 </tr>
