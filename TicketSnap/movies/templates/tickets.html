@@ -78,10 +78,6 @@
                     <div class="row">
                         {% for seat in seats %}
                             {% if forloop.parentloop.counter|stringformat:"s" == seat.row|stringformat:"s" %}
-                                <!-- <button type="button" class="seat {% if seat.is_booked %}booked{% else %}selectable{% endif %}"
-                                    data-seat-id="{{ seat.id }}"
-                                    {% if seat.is_booked %}disabled{% endif %}
-                                    onclick="toggleSelection(this);"> -->
                                     {% if seat.id in booked_seats %}
                                         <button type="button" class="seat booked" disabled>
                                     {% else %}

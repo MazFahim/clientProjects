@@ -105,15 +105,15 @@
                     </form>
                 </div>
             </li>
-            <!-- <li><a href="/summerwear/">Summer Wear</a></li>
-            <li><a href="/winterwear/">Winter Wear</a></li> -->
             <li><a href="/contact/">Contact Us</a></li>
             <li><a href="/about_us/">About Us</a></li>
             <li><a href="/cart/"><img src="{% static 'icons-shopping-cart-.png' %}" alt="Cart" style="height:26px; vertical-align:middle;"></a></li>
             {% if request.user.is_authenticated %}
-                <li><a href="/logout/">LogOut from {{ user.username }}</a></li>
+                <!-- <li><a href="/logout/">LogOut from {{ user.username }}</a></li> -->
+                <li><a href="/logout/"><img src="{% static 'icons-human.png' %}" alt="Cart" style="height:26px; vertical-align:middle;"></a></li>
             {% else %}
-                <li><a href="/login/">Login </a></li>
+                <!-- <li><a href="/login/">Login </a></li> -->
+                <li><a href="/login/"><img src="{% static 'icons-human.png' %}" alt="Cart" style="height:26px; vertical-align:middle;"> </a></li>
             {% endif %}
         </ul>
     </nav>
