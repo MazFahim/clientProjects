@@ -121,12 +121,16 @@ def cart(request):
         cart_items = Cart.objects.filter(session_key=session_key)
         shipped_items = Shipping.objects.filter(session_key=session_key)
 
-
+    totalAmountToPay = 0
     for item in cart_items:
         item.subtotal = item.quantity * item.product.productPrice
+        totalAmountToPay = totalAmountToPay + item.subtotal
+
+    totalAmountToPay = totalAmountToPay + 100
     context = {
         'cart_items': cart_items,
-        'shipped_items': shipped_items
+        'shipped_items': shipped_items,
+        'totalAmountToPay': totalAmountToPay
     }
     return HttpResponse(template.render(context, request))
 
@@ -225,6 +229,8 @@ def confirm_shipment(request):
         cart_items.delete()
 
         template = loader.get_template('orderConfirmed.html')
+
+        totalPayableAmount = totalPayableAmount + 100
 
         context = {
             'TotalPayableAmount':totalPayableAmount,
@@ -383,3 +389,18 @@ def about_us(request):
     template = loader.get_template('about_us.html')
 
     return HttpResponse(template.render())
+
+
+#Cancel Shipment Order
+def cancel_shipment(request, item_id):
+    if request.user.is_authenticated:
+        cancel_item = get_object_or_404(Shipping, id=item_id, user=request.user)  
+    else:
+        session_key = request.session.session_key
+        if not session_key:
+            request.session.create()
+            session_key = request.session.session_key
+        cancel_item = get_object_or_404(Shipping, id=item_id, session_key=session_key) 
+        
+    cancel_item.delete()
+    return redirect('cart')

@@ -136,7 +136,7 @@
                 <tr>
                     <td>Total:</td>
                     <td colspan="2"></td>
-                    <td>৳ </td>
+                    <td>৳ {{ totalAmountToPay }}</td>
                 </tr>
             </tbody>
         </table>
@@ -196,6 +196,7 @@
                     <th>Payment Method</th>
                     <th>Status</th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -206,10 +207,18 @@
                     <td>৳{{ item.product.productPrice }}</td>
                     <td>{{ item.payment_method }}</td>
                     <td>{{ item.shippingStatus }}</td>
+                    <!-- yet to workk->this is for confirming the item received -->
                     <td>
-                        <form action="{% url 'return_item' item.id %}" method="post">
+                        <form action="{% url 'received_shipment' item.id %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" class="remove-btn" onclick="return confirm('Are you confirming you have recieved the item?');">Cancel Order</button>
+                            <button type="submit" class="remove-btn" onclick="return confirm('Are you confirming you want received your shipment?');">Received Shipment</button>
+                        </form>
+                    </td>
+                    <!-- yet to workk->this is for cancelling the order -->
+                    <td>
+                        <form action="{% url 'cancel_shipment' item.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="remove-btn" onclick="return confirm('Are you confirming you want to cancel the order?');">Cancel Order</button>
                         </form>
                     </td>
                 </tr>
