@@ -105,6 +105,9 @@ def add_to_cart(request, product_id):
     else:
         cart_item.quantity = quantity
 
+    product.available -= quantity
+    product.save()        
+
     cart_item.save()
     return redirect('cart')
 
