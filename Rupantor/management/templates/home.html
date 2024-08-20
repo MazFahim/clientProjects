@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <style>
-        body{
-            margin-top: 70px;
+        .body-contents{
+            margin-top: 80px;
         }
         .category-title{
             text-align: center;
@@ -74,52 +74,53 @@
     {% include 'header.html' %}
 
     {% include 'sidebar.html' %}
-    
-    <h2 class="category-title">Rupantor Featured:</h2>
 
-<div class="card-container">
-    {% for x in featured %}
-        {% if forloop.counter0|divisibleby:3 and forloop.counter0 != 0 %}
-            </div><div class="card-container">
-        {% endif %}
-        <div class="card">
-            <p><strong>{{ x.message }}</strong></p>
-            {% for product in products %}
-                {% if product.productId == x.product_id %}
-                    <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
-                        <img src="/media/{{ product.productImage }}" alt="no image">
-                        <p>{{ product.productName }}</p>
-                        <p>Price: ৳{{ product.productPrice }}</p>
-                    </a>
+    <div class="body-contents">
+        <h2 class="category-title">Rupantor Featured:</h2>
+
+        <div class="card-container">
+            {% for x in featured %}
+                {% if forloop.counter0|divisibleby:3 and forloop.counter0 != 0 %}
+                    </div><div class="card-container">
                 {% endif %}
+                <div class="card">
+                    <p><strong>{{ x.message }}</strong></p>
+                    {% for product in products %}
+                        {% if product.productId == x.product_id %}
+                            <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
+                                <img src="/media/{{ product.productImage }}" alt="no image">
+                                <p>{{ product.productName }}</p>
+                                <p>Price: ৳{{ product.productPrice }}</p>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endfor %}
         </div>
-    {% endfor %}
-</div>
-<div>
+        <div>
 
-<h2 class="category-title">Rupantor Offers:</h2>
+        <h2 class="category-title">Rupantor Offers:</h2>
 
-<div class="card-container">
-    {% for x in offers %}
-        {% if forloop.counter0|divisibleby:3 and forloop.counter0 != 0 %}
-            </div><div class="card-container">
-        {% endif %}
-        <div class="card">
-            <p><strong>Discounts: {{ x.Discount }}</strong></p>
-            {% for product in products %}
-                {% if product.productId == x.product_id %}
-                    <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
-                        <img src="/media/{{ product.productImage }}" alt="no image">
-                        <p>{{ product.productName }}</p>
-                        <p>Price: ৳{{ product.productPrice }}</p>
-                    </a>
+        <div class="card-container">
+            {% for x in offers %}
+                {% if forloop.counter0|divisibleby:3 and forloop.counter0 != 0 %}
+                    </div><div class="card-container">
                 {% endif %}
+                <div class="card">
+                    <p><strong>Discounts: {{ x.Discount }}</strong></p>
+                    {% for product in products %}
+                        {% if product.productId == x.product_id %}
+                            <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
+                                <img src="/media/{{ product.productImage }}" alt="no image">
+                                <p>{{ product.productName }}</p>
+                                <p>Price: ৳{{ product.productPrice }}</p>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endfor %}
         </div>
-    {% endfor %}
-</div>
-
+    </div>
 
 </body>
 </html>
