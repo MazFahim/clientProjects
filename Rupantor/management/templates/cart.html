@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        .body-contents{
+            margin-top: 80px;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -96,138 +99,142 @@
 
     {% include 'header.html' %}
 
-    <div style="text-align: right; margin-top: 20px; margin-right: 20px;">
-        <a href="/purchase_history/" class="action-btn">Purchase History</a>
-    </div>
-
-    <div class="cart-container">
-        <h2>Your Cart</h2>
-        {% if cart_items %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Subtotal</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in cart_items %}
-                <tr>
-                    <td>{{ item.product.productName }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>৳  {{ item.product.productPrice }}</td>
-                    <td>৳ {{ item.subtotal }}</td>
-                    <td>
-                        <form action="{% url 'remove_from_cart' item.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="remove-btn" onclick="return confirm('Are you sure you want to remove this item?');">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <td>Delivery Charge:</td>
-                    <td colspan="2"></td>
-                    <td>+ ৳ 100</td>
-                </tr>
-                <tr>
-                    <td>Total:</td>
-                    <td colspan="2"></td>
-                    <td>৳ {{ totalAmountToPay }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="payment-options">
-            <h3>Choose Payment Method</h3>
-            <form action="{% url 'confirm_shipment' %}" method="post">
-                {% csrf_token %}
-                <label>
-                    <input type="radio" name="payment_method" value="cash_on_delivery" checked>
-                    Cash on Delivery
-                </label>
-                <!-- <label>
-                    <input type="radio" name="payment_method" value="bkash" disabled>
-                    bKash Payment
-                </label> -->
-                <div class="checkout-details">
-                    <h3>Shipping Details</h3>
-                    <label for="customer_name">Name:</label>
-                    <input type="text" id="customer_name" name="customer_name" required>
-        
-                    <label for="customer_address">Address:</label>
-                    <input type="text" id="customer_address" name="customer_address" required>
-        
-                    <label for="customer_phone">Phone:</label>
-                    <input type="text" id="customer_phone" name="customer_phone" pattern="(\+88)?\d{11}" required>
-        
-                    <label for="customer_email">Email (optional):</label>
-                    <input type="email" id="customer_email" name="customer_email">
-
-                    <label for="couponCode">Coupon Code(If any):</label>
-                    <input type="text" id="couponCode" name="couponCode">
-
-                    <h3>Tell us suitable time to reach you:</h3>
-
-                    <label for="delivery_time_from">From:</label>
-                    <input type="date" id="delivery_time_from" name="delivery_time_from" class="payment-options"> <br><br>
-
-                    <label for="delivery_time_to">To:</label>
-                    <input type="date" id="delivery_time_to" name="delivery_time_to" class="payment-options">
-                </div>
-                <button type="submit" class="confirm-btn">Confirm Shipment</button>
-            </form>
+    <div class="body-contents">
+        <div style="text-align: right; margin-top: 20px; margin-right: 20px;">
+            <a href="/purchase_history/" class="action-btn">Purchase History</a>
         </div>
-        {% else %}
-        <p>Your cart is empty.</p>
-        {% endif %}
+    
+        <div class="cart-container">
+            <h2>Your Cart</h2>
+            {% if cart_items %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.productName }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>৳  {{ item.product.productPrice }}</td>
+                        <td>৳ {{ item.subtotal }}</td>
+                        <td>
+                            <form action="{% url 'remove_from_cart' item.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-btn" onclick="return confirm('Are you sure you want to remove this item?');">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td>Delivery Charge:</td>
+                        <td colspan="2"></td>
+                        <td>+ ৳ 100</td>
+                    </tr>
+                    <tr>
+                        <td>Total:</td>
+                        <td colspan="2"></td>
+                        <td>৳ {{ totalAmountToPay }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="payment-options">
+                <h3>Choose Payment Method</h3>
+                <form action="{% url 'confirm_shipment' %}" method="post">
+                    {% csrf_token %}
+                    <label>
+                        <input type="radio" name="payment_method" value="cash_on_delivery" checked>
+                        Cash on Delivery
+                    </label>
+                    <!-- <label>
+                        <input type="radio" name="payment_method" value="bkash" disabled>
+                        bKash Payment
+                    </label> -->
+                    <div class="checkout-details">
+                        <h3>Shipping Details</h3>
+                        <label for="customer_name">Name:</label>
+                        <input type="text" id="customer_name" name="customer_name" required>
+            
+                        <label for="customer_address">Address:</label>
+                        <input type="text" id="customer_address" name="customer_address" required>
+            
+                        <label for="customer_phone">Phone:</label>
+                        <input type="text" id="customer_phone" name="customer_phone" pattern="(\+88)?\d{11}" required>
+            
+                        <label for="customer_email">Email (optional):</label>
+                        <input type="email" id="customer_email" name="customer_email">
+    
+                        <label for="couponCode">Coupon Code(If any):</label>
+                        <input type="text" id="couponCode" name="couponCode">
+    
+                        <h3>Tell us suitable time to reach you:</h3>
+    
+                        <label for="delivery_time_from">From:</label>
+                        <input type="date" id="delivery_time_from" name="delivery_time_from" class="payment-options"> <br><br>
+    
+                        <label for="delivery_time_to">To:</label>
+                        <input type="date" id="delivery_time_to" name="delivery_time_to" class="payment-options">
+                    </div>
+                    <button type="submit" class="confirm-btn">Confirm Shipment</button>
+                </form>
+            </div>
+            {% else %}
+            <p>Your cart is empty.</p>
+            {% endif %}
+        </div>
+        <div class="shipped-container">
+            <h2>Shipped Items</h2>
+            {% if shipped_items %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Payment Method</th>
+                        <th>Status</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in shipped_items %}
+                    <tr>
+                        <td>{{ item.product.productName }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>৳{{ item.product.productPrice }}</td>
+                        <td>{{ item.payment_method }}</td>
+                        <td>{{ item.shippingStatus }}</td>
+                        <!-- yet to workk->this is for confirming the item received -->
+                        <td>
+                            <form action="{% url 'received_shipment' item.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-btn" onclick="return confirm('Are you confirming you want received your shipment?');">Received Shipment</button>
+                            </form>
+                        </td>
+                        <!-- yet to workk->this is for cancelling the order -->
+                        <td>
+                            <form action="{% url 'cancel_shipment' item.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="remove-btn" onclick="return confirm('Are you confirming you want to cancel the order?');">Cancel Order</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No shipped items.</p>
+            {% endif %}
+        </div>
     </div>
-    <div class="shipped-container">
-        <h2>Shipped Items</h2>
-        {% if shipped_items %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Payment Method</th>
-                    <th>Status</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in shipped_items %}
-                <tr>
-                    <td>{{ item.product.productName }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>৳{{ item.product.productPrice }}</td>
-                    <td>{{ item.payment_method }}</td>
-                    <td>{{ item.shippingStatus }}</td>
-                    <!-- yet to workk->this is for confirming the item received -->
-                    <td>
-                        <form action="{% url 'received_shipment' item.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="remove-btn" onclick="return confirm('Are you confirming you want received your shipment?');">Received Shipment</button>
-                        </form>
-                    </td>
-                    <!-- yet to workk->this is for cancelling the order -->
-                    <td>
-                        <form action="{% url 'cancel_shipment' item.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="remove-btn" onclick="return confirm('Are you confirming you want to cancel the order?');">Cancel Order</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p>No shipped items.</p>
-        {% endif %}
-    </div>
+
+    
 </body>
 </html>

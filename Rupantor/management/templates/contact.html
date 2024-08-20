@@ -11,6 +11,9 @@
             margin: 40px;
             padding: 0;
         }
+        .body-contents{
+            margin-top: 80px;
+        }
         form {
             background: white;
             max-width: 600px;
@@ -24,6 +27,7 @@
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
         }
         button {
             background-color: #5cb85c;
@@ -36,17 +40,24 @@
         button:hover {
             background-color: #4cae4c;
         }
+        .search-container {
+            display: none;
+        }
     </style>
 </head>
 <body>
     {% include 'header.html' %}
 
-    <form method="post" action="{% url 'contact' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        
-        <button type="submit">Send Message</button>
-    </form>
+    <div class="body-contents">
+        <form method="post" action="{% url 'contact' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <button type="submit">Send Message</button>
+        </form>
+    </div>
+
+    
     <!-- {% include 'footer.html' %} -->
 </body>
 </html>
