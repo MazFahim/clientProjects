@@ -8,6 +8,9 @@
         body {
         font-family: Arial, sans-serif;
         }
+        .body-contents{
+            margin-top: 60px;
+        }
         .container {
             display: flex; 
             flex-direction: column;
@@ -15,7 +18,7 @@
             margin: 0 auto;
             padding: 20px;
         }
-        .product-details {
+        /* .product-details {
             flex: 1;  
             padding: 10px;
         }
@@ -23,14 +26,32 @@
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
+        } */
+        .product-details {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 10px;
+        }
+        .product {
+            flex: 1 1 45%;  
+            max-width: 45%; 
+            min-width: 280px;
         }
         .product-image {
             width: 100%;  
             max-width: 450px;  
             height: auto;
         }
-        .details{
+        /* .details{
             margin-top: 100px;
+        } */
+        .details {
+            flex: 1 1 45%;
+            max-width: 45%;
+            min-width: 280px;
+            margin-top: 60px;
         }
         .details p {
             font-size: 18px;
@@ -154,78 +175,81 @@
     
 {% include 'header.html' %}
 
-<div class="container">
-    <div class="product-details">
-        <div class="product">
-            <h1>{{ product.productName }}</h1>
-            <img src="{{ product.productImage.url }}" alt="{{ product.productName }}" class="product-image">
-        </div>
-        <div class="details">
-            <p><strong>Category:</strong> {{ product.get_category_display }}</p>
-            <p><strong>Color:</strong> {{ product.productColor }}</p>
-            <p><strong>Body:</strong> {{ product.productBody }}</p>
-            <p><strong>Front Length:</strong> {{ product.frontLength }}</p>
-            <p><strong>Back Length:</strong> {{ product.backLength }}</p>
-            <p><strong>Price:</strong> ৳{{ product.productPrice }}</p>
-            <p><strong>Available:</strong> {{ product.available }}</p>
-            <p><strong>Description:</strong> {{ product.description }}</p>
-        </div>
-    </div>
-    <div class="cart-form">
-        <form method="post" action="{% url 'add_to_cart' product.productId %}">
-            {% csrf_token %}
-            <div class="quantity-control">
-                <button type="button" onclick="changeQuantity(-1)">-</button>
-                <input type="text" name="quantity" id="quantity" value="1" readonly>
-                <button type="button" onclick="changeQuantity(1)">+</button>
+<div class="body-contents">
+    <div class="container">
+        <div class="product-details">
+            <div class="product">
+                <h1>{{ product.productName }}</h1>
+                <img src="{{ product.productImage.url }}" alt="{{ product.productName }}" class="product-image">
             </div>
-            <button type="submit" id="add-button">Add to Cart</button>
-        </form>
-    </div>  
-</div>
-
-<div class="reviews">
-    <h1>Product Reviews</h1>
-    <h2>Add your review</h2>
-    <form action="{% url 'add_review' product_id=product.productId %}" method="post">
-        {% csrf_token %}
-        <label for="rating">Rating</label>
-        <div class="rating">
-            <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
-            <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
-            <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
-            <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
-            <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
-        </div><br>
-        <label for="message">Your Review:</label><br>
-        <textarea name="message" id="message" rows="4" cols="50" class="review-textbox"></textarea><br>
-        <input type="submit" value="Submit Review" id="add-button">
-    </form>
-
-    <div class="review-list">
-        {% if reviews %}
-        <h2>Product Reviews</h2>
-            {% for review in reviews %}
-                <li>
-                    {% if review.user.username %}
-                        <strong>{{ review.user.username }}</strong> 
-                    {% else %}
-                        <strong>Anonymous</strong> 
-                    {% endif %}
-                    - Rating: 
-                    <span class="stars">
-                        {% for i in ''|center:review.rating %}
-                            ★
-                        {% endfor %}
-                    </span>
-                    <br>
-                    {{ review.message }}
-                </li>
-            {% endfor %}
-        {% endif %}
+            <div class="details">
+                <p><strong>Category:</strong> {{ product.get_category_display }}</p>
+                <p><strong>Color:</strong> {{ product.productColor }}</p>
+                <p><strong>Body:</strong> {{ product.productBody }}</p>
+                <p><strong>Front Length:</strong> {{ product.frontLength }}</p>
+                <p><strong>Back Length:</strong> {{ product.backLength }}</p>
+                <p><strong>Price:</strong> ৳{{ product.productPrice }}</p>
+                <p><strong>Available:</strong> {{ product.available }}</p>
+                <p><strong>Description:</strong> {{ product.description }}</p>
+            </div>
+        </div>
+        <div class="cart-form">
+            <form method="post" action="{% url 'add_to_cart' product.productId %}">
+                {% csrf_token %}
+                <div class="quantity-control">
+                    <button type="button" onclick="changeQuantity(-1)">-</button>
+                    <input type="text" name="quantity" id="quantity" value="1" readonly>
+                    <button type="button" onclick="changeQuantity(1)">+</button>
+                </div>
+                <button type="submit" id="add-button">Add to Cart</button>
+            </form>
+        </div>  
     </div>
     
+    <div class="reviews">
+        <h1>Product Reviews</h1>
+        <h2>Add your review</h2>
+        <form action="{% url 'add_review' product_id=product.productId %}" method="post">
+            {% csrf_token %}
+            <label for="rating">Rating</label>
+            <div class="rating">
+                <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
+                <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
+                <input type="radio" name="rating" id="star3" value="3"><label for="star3">★</label>
+                <input type="radio" name="rating" id="star2" value="2"><label for="star2">★</label>
+                <input type="radio" name="rating" id="star1" value="1"><label for="star1">★</label>
+            </div><br>
+            <label for="message">Your Review:</label><br>
+            <textarea name="message" id="message" rows="4" cols="50" class="review-textbox"></textarea><br>
+            <input type="submit" value="Submit Review" id="add-button">
+        </form>
+    
+        <div class="review-list">
+            {% if reviews %}
+            <h2>Product Reviews</h2>
+                {% for review in reviews %}
+                    <li>
+                        {% if review.user.username %}
+                            <strong>{{ review.user.username }}</strong> 
+                        {% else %}
+                            <strong>Anonymous</strong> 
+                        {% endif %}
+                        - Rating: 
+                        <span class="stars">
+                            {% for i in ''|center:review.rating %}
+                                ★
+                            {% endfor %}
+                        </span>
+                        <br>
+                        {{ review.message }}
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+    </div>
 </div>
+
 
 <script>
     function changeQuantity(change) {

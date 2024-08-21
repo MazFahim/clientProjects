@@ -30,6 +30,9 @@
             transition: box-shadow 0.3s ease;
             background-color: aliceblue;
         }
+        .card:nth-child(3n) {
+            margin-right: 0;
+        }
         .card:hover {
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
@@ -54,7 +57,7 @@
     {% include 'header.html' %}
     {% include 'sidebar.html' %}
 
-    <div class="body-contents">
+    <!-- <div class="body-contents">
         <div class="card-container">
             {% if items %}
                 {% for item in items %}
@@ -76,6 +79,27 @@
                 {% if forloop.counter0|divisibleby:3 == False %}
                     </div>
                 {% endif %}
+            {% else %}
+                <p>No items found for the selected filters.</p>
+            {% endif %}
+        </div>
+    </div> -->
+    <div class="body-contents">
+        <div class="card-container">
+            {% if items %}
+                {% for item in items %}
+                    {% for product in categorized %}
+                        {% if item.productId == product.productId %}
+                            <div class="card">                    
+                                <a href="{% url 'product_detail' product_id=product.productId %}" style="text-decoration: none; color: inherit;">
+                                    <img src="/media/{{ product.productImage }}" alt="no image">
+                                    <p>{{ product.productName }}</p>
+                                    <p>Price: ৳{{ product.productPrice }}</p>
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
             {% else %}
                 <p>No items found for the selected filters.</p>
             {% endif %}
